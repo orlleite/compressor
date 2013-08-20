@@ -1,0 +1,183 @@
+package ;
+
+external class Object
+{
+	public function Object();
+	
+	public function hasOwnProperty( prop:String ):Boolean = hasOwnProperty;
+	public function propertyIsEnumerable( prop:String ):Boolean = propertyIsEnumerable;
+	public function toString():String = toString;
+	public function valueOf():Object = valueOf;
+} = Object;
+
+external class Number
+{
+	private function Number();
+	
+	public static const MAX_VALUE:Number = MAX_VALUE;
+	public static const MIN_VALUE:Number = MIN_VALUE;
+	public static const NEGATIVE_INFINITY:Number = NEGATIVE_INFINITY;
+	public static const NaN:Number = NaN;
+	public static const POSITIVE_INFINITY:Number = POSITIVE_INFINITY;
+	
+	public function toExponential( digits:int = undefined ):String = toExponential;
+	public function toFixed( digits:int = undefined ):String = toFixed;
+	public function toPrecision( digits:int = undefined ):String = toPrecision;
+} = Number;
+
+external class String
+{
+	public function String();
+	
+	public get function length():int = var length;
+	
+	public function charAt( position:int ):String = charAt;
+	public function charCodeAt( position:int ):int = charCodeAt;
+	public function concat( str:String ):String = concat;
+	public function indexOf( str:String ):int = indexOf;
+	public function rgxIndexOf( regexp:RegExp ):int = search;
+	public function lastIndexOf( str:String ):int = lastIndexOf;
+	public function match( regexp:RegExp ):String[] = match;
+	public function replace( searchvalue:String, newvalue:String ):String = replace;
+	public function rgxReplace( regexp:RegExp, newvalue:String ):String = replace;
+	public function slice( start:int, end:int = undefined ):String = slice;
+	public function split( separator:String, limit:int = undefined ):Array = split;
+	public function substr( start:int, length:int = undefined ):String = substr;
+	public function substring( from:int, to:int = undefined ):String = substring;
+	public function toLowerCase():String = toLowerCase;
+	public function toUpperCase():String = toUpperCase;
+	
+	
+	public static function fromCharCode( value:int ):String = fromCharCode;
+} = String;
+
+external class Array
+{
+	public function Array();
+	
+	public get function length():int = var length;
+	
+	public function concat( array:Array ):Array = concat;
+	public function indexOf( obj:Object, start:int = 0 ):int = indexOf;
+	public function join( separator:String ):String = join;
+	public function lastIndexOf( obj:Start ):int = lastIndexOf;
+	
+	public function pop():Object = pop;
+	public function push( obj:Object ):int = push;
+	public function reverse():Array = reverse;
+	public function shift():Object = shift;
+	public function slice( start:int, end:int = undefined ):Array = slice;
+	public function sort( sortFunc:Function ):Array = sort;
+	public function splice( index:int, howmany:int, substitute:Object = undefined ):Array = splice;
+	public function unshift( obj:Object ):int = unshift;
+} = Array;
+
+external class Date
+{
+	public static function parse( date:String ):int = parse;
+	
+	public function Date();
+	
+	public get function day():int = getDate;
+	public get function weekDay():int = getDay;
+	public get function fullYear():int = getFullYear;
+	public get function hours():int = getHours;
+	public get function milliseconds():int = getMilliseconds;
+	public get function minutes():int = getMinutes;
+	public get function month():int = getMonth;
+	public get function seconds():int = getSeconds;
+	public get function time():int = getTime;
+	public get function timezoneOffset():int = getTimezoneOffset;
+	
+	public get function UTCDay():int = getUTCDate;
+	public get function UTCWeekDay():int = getUTCDay;
+	public get function UTCFullYear():int = getUTCFullYear;
+	public get function UTCHours():int = getUTCHours;
+	public get function UTCMilliseconds():int = getUTCMilliseconds;
+	public get function UTCMinutes():int = getUTCMinutes;
+	public get function UTCMonth():int = getUTCMonth;
+	public get function UTCSeconds():int = getUTCSeconds;
+	
+	public set function day( value:int ):int = setDate;
+	public set function fullYear( value:int ):int = setFullYear;
+	public set function hours( value:int ):int = setHours;
+	public set function milliseconds( value:int ):int = setMilliseconds;
+	public set function minutes( value:int ):int = setMinutes;
+	public set function month( value:int ):int = setMonth;
+	public set function seconds( value:int ):int = setSeconds;
+	public set function time( value:int ):int = setTime;
+	
+	public set function UTCDay():int = setUTCDate;
+	public set function UTCFullYear():int = setUTCFullYear;
+	public set function UTCHours():int = setUTCHours;
+	public set function UTCMilliseconds():int = setUTCMilliseconds;
+	public set function UTCMinutes():int = setUTCMinutes;
+	public set function UTCMonth():int = setUTCMonth;
+	public set function UTCSeconds():int = setUTCSeconds;
+	
+	public function toDateString():String = toDateString;
+	public function toISOString():String = toISOString;
+	public function toJSON():String = toJSON;
+	public function toLocaleDateString():String = toLocaleDateString;
+	public function toLocaleTimeString():String = toLocaleTimeString;
+	public function toLocaleString():String = toLocaleString;
+	public function toTimeString():String = toTimeString;
+	public function toUTCString():String = toUTCString;
+	
+	public static function UTC( year:int, month:int, day:int, hours:int = 0, minutes:int = 0, seconds:int = 0, milliseconds:int = 0 ):int = UTC;
+	
+} = Date;
+
+external class Function
+{
+	public function Function();
+	
+	public function apply( theThis:Object, args:Array = null ):void = apply;
+} = Function;
+
+external class Math
+{
+	private function Math();
+	
+	public static const E:Number = E;
+	public static const LN2:Number = LN2;
+	public static const LN10:Number = LN10;
+	public static const LOG2E:Number = LOG2E;
+	public static const LOG10E:Number = LOG10E;
+	public static const PI:Number = PI;
+	public static const SQRT1_2:Number = SQRT1_2;
+	public static const SQRT2:Number = SQRT2;
+	
+	public static function abs( x:Number ):Number = abs;
+	public static function acos( x:Number ):Number = acos;
+	public static function asin( x:Number ):Number = asin;
+	public static function atan( x:Number ):Number = atan;
+	public static function atan2( x:Number, y:Number ):Number = atan2;
+	public static function ceil( x:Number ):Number = ceil;
+	public static function cos( x:Number ):Number = cos;
+	public static function exp( x:Number ):Number = exp;
+	public static function floor( x:Number ):Number = floor;
+	public static function log( x:Number ):Number = log;
+	public static function max( x:Number, y:Number ):Number = max;
+	public static function min( x:Number, y:Number ):Number = min;
+	public static function pow( x:Number, y:Number ):Number = pow;
+	public static function random():Number = random;
+	public static function round( x:Number ):Number = round;
+	public static function sin( x:Number ):Number = sin;
+	public static function sqrt( x:Number ):Number = sqrt;
+	public static function tan( x:Number ):Number = tan;
+} = Math;
+
+external class RegExp
+{
+	public function RegExp( pattern:String, flags:String = undefined );
+	
+	public get function lastIndex():int = var lastIndex;
+	public get function global():Boolean = var global;
+	public get function ignoreCase():Boolean = var ignoreCase;
+	public get function multiline():Boolean = var multiline;
+	public get function source():String = var source;
+	
+	public get function exec( str:String ):String = exec;
+	public get function test( str:String ):Boolean = test;
+} = RegExp;

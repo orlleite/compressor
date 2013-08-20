@@ -1,0 +1,816 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		46BEE6B1143F14D500F3867D /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46BEE6B0143F14D500F3867D /* main.cpp */; };
+		46E9D22D175508CC00CDCE7D /* blocks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 46E9D22B175508CC00CDCE7D /* blocks.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		46BEE6AA143F14D400F3867D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		460DB3101489057B0095C027 /* expressions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = expressions.hpp; sourceTree = "<group>"; };
+		460DE90415740DB200193C50 /* BlockElement.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BlockElement.nn; sourceTree = "<group>"; };
+		460DE90615740DB200193C50 /* EventDispatcher.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = EventDispatcher.nn; sourceTree = "<group>"; };
+		460DE90815740DB200193C50 /* Color.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Color.nn; sourceTree = "<group>"; };
+		460DE90A15740DB200193C50 /* Animate.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Animate.nn; sourceTree = "<group>"; };
+		460DE90C15740DB200193C50 /* Back.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Back.nn; sourceTree = "<group>"; };
+		460DE90D15740DB200193C50 /* Bounce.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Bounce.nn; sourceTree = "<group>"; };
+		460DE90E15740DB200193C50 /* Circ.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Circ.nn; sourceTree = "<group>"; };
+		460DE90F15740DB200193C50 /* Cubic.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Cubic.nn; sourceTree = "<group>"; };
+		460DE91015740DB200193C50 /* Elastic.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Elastic.nn; sourceTree = "<group>"; };
+		460DE91115740DB200193C50 /* Expo.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Expo.nn; sourceTree = "<group>"; };
+		460DE91215740DB200193C50 /* Linear.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Linear.nn; sourceTree = "<group>"; };
+		460DE91315740DB200193C50 /* Quad.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Quad.nn; sourceTree = "<group>"; };
+		460DE91415740DB200193C50 /* Quart.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Quart.nn; sourceTree = "<group>"; };
+		460DE91515740DB200193C50 /* Quint.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Quint.nn; sourceTree = "<group>"; };
+		460DE91615740DB200193C50 /* Sine.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Sine.nn; sourceTree = "<group>"; };
+		460DE91715740DB200193C50 /* Strong.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Strong.nn; sourceTree = "<group>"; };
+		460DE91815740DB200193C50 /* Tester.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Tester.nn; sourceTree = "<group>"; };
+		460DE91B15740DB200193C50 /* Camera.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Camera.js; sourceTree = "<group>"; };
+		460DE91C15740DB200193C50 /* OrthographicCamera.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = OrthographicCamera.js; sourceTree = "<group>"; };
+		460DE91D15740DB200193C50 /* PerspectiveCamera.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = PerspectiveCamera.js; sourceTree = "<group>"; };
+		460DE91F15740DB200193C50 /* Clock.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Clock.js; sourceTree = "<group>"; };
+		460DE92015740DB200193C50 /* Color.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Color.js; sourceTree = "<group>"; };
+		460DE92115740DB200193C50 /* Face3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Face3.js; sourceTree = "<group>"; };
+		460DE92215740DB200193C50 /* Face4.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Face4.js; sourceTree = "<group>"; };
+		460DE92315740DB200193C50 /* Frustum.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Frustum.js; sourceTree = "<group>"; };
+		460DE92415740DB200193C50 /* Geometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Geometry.js; sourceTree = "<group>"; };
+		460DE92515740DB200193C50 /* Math.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Math.js; sourceTree = "<group>"; };
+		460DE92615740DB200193C50 /* Matrix3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Matrix3.js; sourceTree = "<group>"; };
+		460DE92715740DB200193C50 /* Matrix4.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Matrix4.js; sourceTree = "<group>"; };
+		460DE92815740DB200193C50 /* Object3D.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Object3D.js; sourceTree = "<group>"; };
+		460DE92915740DB200193C50 /* Projector.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Projector.js; sourceTree = "<group>"; };
+		460DE92A15740DB200193C50 /* Quaternion.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Quaternion.js; sourceTree = "<group>"; };
+		460DE92B15740DB200193C50 /* Ray.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Ray.js; sourceTree = "<group>"; };
+		460DE92C15740DB200193C50 /* Rectangle.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Rectangle.js; sourceTree = "<group>"; };
+		460DE92D15740DB200193C50 /* Spline.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Spline.js; sourceTree = "<group>"; };
+		460DE92E15740DB200193C50 /* UV.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = UV.js; sourceTree = "<group>"; };
+		460DE92F15740DB200193C50 /* Vector2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Vector2.js; sourceTree = "<group>"; };
+		460DE93015740DB200193C50 /* Vector3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Vector3.js; sourceTree = "<group>"; };
+		460DE93115740DB200193C50 /* Vector4.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Vector4.js; sourceTree = "<group>"; };
+		460DE93215740DB200193C50 /* Vertex.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Vertex.js; sourceTree = "<group>"; };
+		460DE93515740DB200193C50 /* Animation.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Animation.js; sourceTree = "<group>"; };
+		460DE93615740DB200193C50 /* AnimationHandler.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = AnimationHandler.js; sourceTree = "<group>"; };
+		460DE93715740DB200193C50 /* AnimationMorphTarget.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = AnimationMorphTarget.js; sourceTree = "<group>"; };
+		460DE93815740DB200193C50 /* KeyFrameAnimation.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = KeyFrameAnimation.js; sourceTree = "<group>"; };
+		460DE93A15740DB200193C50 /* CombinedCamera.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = CombinedCamera.js; sourceTree = "<group>"; };
+		460DE93B15740DB200193C50 /* CubeCamera.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = CubeCamera.js; sourceTree = "<group>"; };
+		460DE93C15740DB200193C50 /* ColorUtils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ColorUtils.js; sourceTree = "<group>"; };
+		460DE93E15740DB200193C50 /* FirstPersonControls.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = FirstPersonControls.js; sourceTree = "<group>"; };
+		460DE93F15740DB200193C50 /* FlyControls.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = FlyControls.js; sourceTree = "<group>"; };
+		460DE94015740DB200193C50 /* PathControls.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = PathControls.js; sourceTree = "<group>"; };
+		460DE94115740DB200193C50 /* RollControls.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = RollControls.js; sourceTree = "<group>"; };
+		460DE94215740DB200193C50 /* TrackballControls.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = TrackballControls.js; sourceTree = "<group>"; };
+		460DE94415740DB200193C50 /* BufferGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = BufferGeometry.js; sourceTree = "<group>"; };
+		460DE94515740DB200193C50 /* Curve.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Curve.js; sourceTree = "<group>"; };
+		460DE94615740DB200193C50 /* CurvePath.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = CurvePath.js; sourceTree = "<group>"; };
+		460DE94715740DB200193C50 /* EventTarget.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = EventTarget.js; sourceTree = "<group>"; };
+		460DE94815740DB200193C50 /* Gyroscope.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Gyroscope.js; sourceTree = "<group>"; };
+		460DE94915740DB200193C50 /* Path.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Path.js; sourceTree = "<group>"; };
+		460DE94A15740DB200193C50 /* Shape.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Shape.js; sourceTree = "<group>"; };
+		460DE94B15740DB200193C50 /* TextPath.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = TextPath.js; sourceTree = "<group>"; };
+		460DE94D15740DB200193C50 /* CubeGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = CubeGeometry.js; sourceTree = "<group>"; };
+		460DE94E15740DB200193C50 /* CylinderGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = CylinderGeometry.js; sourceTree = "<group>"; };
+		460DE94F15740DB200193C50 /* ExtrudeGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ExtrudeGeometry.js; sourceTree = "<group>"; };
+		460DE95015740DB200193C50 /* IcosahedronGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = IcosahedronGeometry.js; sourceTree = "<group>"; };
+		460DE95115740DB200193C50 /* LatheGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = LatheGeometry.js; sourceTree = "<group>"; };
+		460DE95215740DB200193C50 /* OctahedronGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = OctahedronGeometry.js; sourceTree = "<group>"; };
+		460DE95315740DB200193C50 /* ParametricGeometries.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ParametricGeometries.js; sourceTree = "<group>"; };
+		460DE95415740DB200193C50 /* ParametricGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ParametricGeometry.js; sourceTree = "<group>"; };
+		460DE95515740DB200193C50 /* PlaneGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = PlaneGeometry.js; sourceTree = "<group>"; };
+		460DE95615740DB200193C50 /* PolyhedronGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = PolyhedronGeometry.js; sourceTree = "<group>"; };
+		460DE95715740DB200193C50 /* SphereGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SphereGeometry.js; sourceTree = "<group>"; };
+		460DE95815740DB200193C50 /* TetrahedronGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = TetrahedronGeometry.js; sourceTree = "<group>"; };
+		460DE95915740DB200193C50 /* TextGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = TextGeometry.js; sourceTree = "<group>"; };
+		460DE95A15740DB200193C50 /* TorusGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = TorusGeometry.js; sourceTree = "<group>"; };
+		460DE95B15740DB200193C50 /* TorusKnotGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = TorusKnotGeometry.js; sourceTree = "<group>"; };
+		460DE95C15740DB200193C50 /* TubeGeometry.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = TubeGeometry.js; sourceTree = "<group>"; };
+		460DE95D15740DB200193C50 /* GeometryUtils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = GeometryUtils.js; sourceTree = "<group>"; };
+		460DE95F15740DB200193C50 /* ArrowHelper.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ArrowHelper.js; sourceTree = "<group>"; };
+		460DE96015740DB200193C50 /* AxisHelper.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = AxisHelper.js; sourceTree = "<group>"; };
+		460DE96115740DB200193C50 /* CameraHelper.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = CameraHelper.js; sourceTree = "<group>"; };
+		460DE96215740DB200193C50 /* ImageUtils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ImageUtils.js; sourceTree = "<group>"; };
+		460DE96415740DB200193C50 /* SubdivisionModifier.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SubdivisionModifier.js; sourceTree = "<group>"; };
+		460DE96615740DB200193C50 /* ImmediateRenderObject.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ImmediateRenderObject.js; sourceTree = "<group>"; };
+		460DE96715740DB200193C50 /* LensFlare.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = LensFlare.js; sourceTree = "<group>"; };
+		460DE96815740DB200193C50 /* MorphBlendMesh.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MorphBlendMesh.js; sourceTree = "<group>"; };
+		460DE96B15740DB200193C50 /* DepthPassPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = DepthPassPlugin.js; sourceTree = "<group>"; };
+		460DE96C15740DB200193C50 /* LensFlarePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = LensFlarePlugin.js; sourceTree = "<group>"; };
+		460DE96D15740DB200193C50 /* ShadowMapPlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ShadowMapPlugin.js; sourceTree = "<group>"; };
+		460DE96E15740DB200193C50 /* SpritePlugin.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SpritePlugin.js; sourceTree = "<group>"; };
+		460DE96F15740DB200193C50 /* SceneUtils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SceneUtils.js; sourceTree = "<group>"; };
+		460DE97115740DB200193C50 /* ShaderFlares.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ShaderFlares.js; sourceTree = "<group>"; };
+		460DE97215740DB200193C50 /* ShaderSprite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ShaderSprite.js; sourceTree = "<group>"; };
+		460DE97315740DB200193C50 /* ShaderUtils.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ShaderUtils.js; sourceTree = "<group>"; };
+		460DE97515740DB200193C50 /* AmbientLight.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = AmbientLight.js; sourceTree = "<group>"; };
+		460DE97615740DB200193C50 /* DirectionalLight.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = DirectionalLight.js; sourceTree = "<group>"; };
+		460DE97715740DB200193C50 /* Light.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Light.js; sourceTree = "<group>"; };
+		460DE97815740DB200193C50 /* PointLight.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = PointLight.js; sourceTree = "<group>"; };
+		460DE97915740DB200193C50 /* SpotLight.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SpotLight.js; sourceTree = "<group>"; };
+		460DE97B15740DB200193C50 /* BinaryLoader.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = BinaryLoader.js; sourceTree = "<group>"; };
+		460DE97C15740DB200193C50 /* ImageLoader.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ImageLoader.js; sourceTree = "<group>"; };
+		460DE97D15740DB200193C50 /* JSONLoader.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = JSONLoader.js; sourceTree = "<group>"; };
+		460DE97E15740DB200193C50 /* Loader.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Loader.js; sourceTree = "<group>"; };
+		460DE97F15740DB200193C50 /* SceneLoader.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SceneLoader.js; sourceTree = "<group>"; };
+		460DE98115740DB200193C50 /* LineBasicMaterial.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = LineBasicMaterial.js; sourceTree = "<group>"; };
+		460DE98215740DB200193C50 /* Material.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Material.js; sourceTree = "<group>"; };
+		460DE98315740DB200193C50 /* MeshBasicMaterial.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MeshBasicMaterial.js; sourceTree = "<group>"; };
+		460DE98415740DB200193C50 /* MeshDepthMaterial.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MeshDepthMaterial.js; sourceTree = "<group>"; };
+		460DE98515740DB200193C50 /* MeshFaceMaterial.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MeshFaceMaterial.js; sourceTree = "<group>"; };
+		460DE98615740DB200193C50 /* MeshLambertMaterial.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MeshLambertMaterial.js; sourceTree = "<group>"; };
+		460DE98715740DB200193C50 /* MeshNormalMaterial.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MeshNormalMaterial.js; sourceTree = "<group>"; };
+		460DE98815740DB200193C50 /* MeshPhongMaterial.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MeshPhongMaterial.js; sourceTree = "<group>"; };
+		460DE98915740DB200193C50 /* ParticleBasicMaterial.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ParticleBasicMaterial.js; sourceTree = "<group>"; };
+		460DE98A15740DB200193C50 /* ParticleCanvasMaterial.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ParticleCanvasMaterial.js; sourceTree = "<group>"; };
+		460DE98B15740DB200193C50 /* ParticleDOMMaterial.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ParticleDOMMaterial.js; sourceTree = "<group>"; };
+		460DE98C15740DB200193C50 /* ShaderMaterial.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ShaderMaterial.js; sourceTree = "<group>"; };
+		460DE98E15740DB200193C50 /* Bone.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Bone.js; sourceTree = "<group>"; };
+		460DE98F15740DB200193C50 /* Line.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Line.js; sourceTree = "<group>"; };
+		460DE99015740DB200193C50 /* LOD.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = LOD.js; sourceTree = "<group>"; };
+		460DE99115740DB200193C50 /* Mesh.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Mesh.js; sourceTree = "<group>"; };
+		460DE99215740DB200193C50 /* MorphAnimMesh.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = MorphAnimMesh.js; sourceTree = "<group>"; };
+		460DE99315740DB200193C50 /* Particle.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Particle.js; sourceTree = "<group>"; };
+		460DE99415740DB200193C50 /* ParticleSystem.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = ParticleSystem.js; sourceTree = "<group>"; };
+		460DE99515740DB200193C50 /* Ribbon.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Ribbon.js; sourceTree = "<group>"; };
+		460DE99615740DB200193C50 /* SkinnedMesh.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SkinnedMesh.js; sourceTree = "<group>"; };
+		460DE99715740DB200193C50 /* Sprite.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Sprite.js; sourceTree = "<group>"; };
+		460DE99915740DB200193C50 /* CanvasRenderer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = CanvasRenderer.js; sourceTree = "<group>"; };
+		460DE99A15740DB200193C50 /* DOMRenderer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = DOMRenderer.js; sourceTree = "<group>"; };
+		460DE99C15740DB200193C50 /* RenderableFace3.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = RenderableFace3.js; sourceTree = "<group>"; };
+		460DE99D15740DB200193C50 /* RenderableFace4.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = RenderableFace4.js; sourceTree = "<group>"; };
+		460DE99E15740DB200193C50 /* RenderableLine.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = RenderableLine.js; sourceTree = "<group>"; };
+		460DE99F15740DB200193C50 /* RenderableObject.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = RenderableObject.js; sourceTree = "<group>"; };
+		460DE9A015740DB200193C50 /* RenderableParticle.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = RenderableParticle.js; sourceTree = "<group>"; };
+		460DE9A115740DB200193C50 /* RenderableVertex.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = RenderableVertex.js; sourceTree = "<group>"; };
+		460DE9A215740DB200193C50 /* SVGRenderer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = SVGRenderer.js; sourceTree = "<group>"; };
+		460DE9A315740DB200193C50 /* WebGLRenderer.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WebGLRenderer.js; sourceTree = "<group>"; };
+		460DE9A415740DB200193C50 /* WebGLRenderTarget.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WebGLRenderTarget.js; sourceTree = "<group>"; };
+		460DE9A515740DB200193C50 /* WebGLRenderTargetCube.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WebGLRenderTargetCube.js; sourceTree = "<group>"; };
+		460DE9A615740DB200193C50 /* WebGLShaders.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = WebGLShaders.js; sourceTree = "<group>"; };
+		460DE9A815740DB200193C50 /* Fog.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Fog.js; sourceTree = "<group>"; };
+		460DE9A915740DB200193C50 /* FogExp2.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = FogExp2.js; sourceTree = "<group>"; };
+		460DE9AA15740DB200193C50 /* Scene.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Scene.js; sourceTree = "<group>"; };
+		460DE9AC15740DB200193C50 /* DataTexture.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = DataTexture.js; sourceTree = "<group>"; };
+		460DE9AD15740DB200193C50 /* Texture.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = Texture.js; sourceTree = "<group>"; };
+		460DE9AE15740DB200193C50 /* Three.nn */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Three.nn; sourceTree = "<group>"; };
+		4630A586149B6582004E5C48 /* types.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = types.cpp; sourceTree = "<group>"; };
+		4630A588149B658F004E5C48 /* types.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = types.hpp; sourceTree = "<group>"; };
+		464A319F173940CB0038F92C /* pre_parser.y */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.yacc; path = pre_parser.y; sourceTree = "<group>"; };
+		464A31A0173940CB0038F92C /* pre_tokens.l */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.lex; path = pre_tokens.l; sourceTree = "<group>"; };
+		464A31A1173940CB0038F92C /* preprocessor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = preprocessor.cpp; sourceTree = "<group>"; };
+		464A31A2173940CB0038F92C /* preprocessor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = preprocessor.hpp; sourceTree = "<group>"; };
+		469C4C56170659880010F76D /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; path = include; sourceTree = "<group>"; };
+		46BEE6AC143F14D500F3867D /* Compressor */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Compressor; sourceTree = BUILT_PRODUCTS_DIR; };
+		46BEE6B0143F14D500F3867D /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		46BEE6BD143F164D00F3867D /* tokens.l */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.lex; path = tokens.l; sourceTree = "<group>"; };
+		46BEE6BE143F164D00F3867D /* parser.y */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.yacc; path = parser.y; sourceTree = "<group>"; };
+		46BEE6BF143F167000F3867D /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		46C650A71488EC8100A8249D /* expressions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = expressions.cpp; sourceTree = "<group>"; };
+		46E9D22B175508CC00CDCE7D /* blocks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = blocks.cpp; sourceTree = "<group>"; };
+		46E9D22C175508CC00CDCE7D /* blocks.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = blocks.hpp; sourceTree = "<group>"; };
+		46F0783D148CEA2D00990135 /* instructions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = instructions.cpp; sourceTree = "<group>"; };
+		46F0783F148CEA3F00990135 /* instructions.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = instructions.hpp; sourceTree = "<group>"; };
+		46F07840148D293400990135 /* workspace.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = workspace.hpp; sourceTree = "<group>"; };
+		46F07841148D294600990135 /* workspace.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = workspace.cpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		46BEE6A9143F14D400F3867D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		460DE90115740DB200193C50 /* test_files */ = {
+			isa = PBXGroup;
+			children = (
+				460DE90215740DB200193C50 /* nano */,
+				460DE91915740DB200193C50 /* three */,
+			);
+			path = test_files;
+			sourceTree = "<group>";
+		};
+		460DE90215740DB200193C50 /* nano */ = {
+			isa = PBXGroup;
+			children = (
+				460DE90315740DB200193C50 /* display */,
+				460DE90515740DB200193C50 /* event */,
+				460DE90715740DB200193C50 /* graphic */,
+				460DE90915740DB200193C50 /* motion */,
+				460DE91815740DB200193C50 /* Tester.nn */,
+			);
+			path = nano;
+			sourceTree = "<group>";
+		};
+		460DE90315740DB200193C50 /* display */ = {
+			isa = PBXGroup;
+			children = (
+				460DE90415740DB200193C50 /* BlockElement.nn */,
+			);
+			path = display;
+			sourceTree = "<group>";
+		};
+		460DE90515740DB200193C50 /* event */ = {
+			isa = PBXGroup;
+			children = (
+				460DE90615740DB200193C50 /* EventDispatcher.nn */,
+			);
+			path = event;
+			sourceTree = "<group>";
+		};
+		460DE90715740DB200193C50 /* graphic */ = {
+			isa = PBXGroup;
+			children = (
+				460DE90815740DB200193C50 /* Color.nn */,
+			);
+			path = graphic;
+			sourceTree = "<group>";
+		};
+		460DE90915740DB200193C50 /* motion */ = {
+			isa = PBXGroup;
+			children = (
+				460DE90A15740DB200193C50 /* Animate.nn */,
+				460DE90B15740DB200193C50 /* easing */,
+			);
+			path = motion;
+			sourceTree = "<group>";
+		};
+		460DE90B15740DB200193C50 /* easing */ = {
+			isa = PBXGroup;
+			children = (
+				460DE90C15740DB200193C50 /* Back.nn */,
+				460DE90D15740DB200193C50 /* Bounce.nn */,
+				460DE90E15740DB200193C50 /* Circ.nn */,
+				460DE90F15740DB200193C50 /* Cubic.nn */,
+				460DE91015740DB200193C50 /* Elastic.nn */,
+				460DE91115740DB200193C50 /* Expo.nn */,
+				460DE91215740DB200193C50 /* Linear.nn */,
+				460DE91315740DB200193C50 /* Quad.nn */,
+				460DE91415740DB200193C50 /* Quart.nn */,
+				460DE91515740DB200193C50 /* Quint.nn */,
+				460DE91615740DB200193C50 /* Sine.nn */,
+				460DE91715740DB200193C50 /* Strong.nn */,
+			);
+			path = easing;
+			sourceTree = "<group>";
+		};
+		460DE91915740DB200193C50 /* three */ = {
+			isa = PBXGroup;
+			children = (
+				460DE91A15740DB200193C50 /* cameras */,
+				460DE91E15740DB200193C50 /* core */,
+				460DE93315740DB200193C50 /* extras */,
+				460DE97415740DB200193C50 /* lights */,
+				460DE97A15740DB200193C50 /* loaders */,
+				460DE98015740DB200193C50 /* materials */,
+				460DE98D15740DB200193C50 /* objects */,
+				460DE99815740DB200193C50 /* renderers */,
+				460DE9A715740DB200193C50 /* scenes */,
+				460DE9AB15740DB200193C50 /* textures */,
+				460DE9AE15740DB200193C50 /* Three.nn */,
+			);
+			path = three;
+			sourceTree = "<group>";
+		};
+		460DE91A15740DB200193C50 /* cameras */ = {
+			isa = PBXGroup;
+			children = (
+				460DE91B15740DB200193C50 /* Camera.js */,
+				460DE91C15740DB200193C50 /* OrthographicCamera.js */,
+				460DE91D15740DB200193C50 /* PerspectiveCamera.js */,
+			);
+			path = cameras;
+			sourceTree = "<group>";
+		};
+		460DE91E15740DB200193C50 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				460DE91F15740DB200193C50 /* Clock.js */,
+				460DE92015740DB200193C50 /* Color.js */,
+				460DE92115740DB200193C50 /* Face3.js */,
+				460DE92215740DB200193C50 /* Face4.js */,
+				460DE92315740DB200193C50 /* Frustum.js */,
+				460DE92415740DB200193C50 /* Geometry.js */,
+				460DE92515740DB200193C50 /* Math.js */,
+				460DE92615740DB200193C50 /* Matrix3.js */,
+				460DE92715740DB200193C50 /* Matrix4.js */,
+				460DE92815740DB200193C50 /* Object3D.js */,
+				460DE92915740DB200193C50 /* Projector.js */,
+				460DE92A15740DB200193C50 /* Quaternion.js */,
+				460DE92B15740DB200193C50 /* Ray.js */,
+				460DE92C15740DB200193C50 /* Rectangle.js */,
+				460DE92D15740DB200193C50 /* Spline.js */,
+				460DE92E15740DB200193C50 /* UV.js */,
+				460DE92F15740DB200193C50 /* Vector2.js */,
+				460DE93015740DB200193C50 /* Vector3.js */,
+				460DE93115740DB200193C50 /* Vector4.js */,
+				460DE93215740DB200193C50 /* Vertex.js */,
+			);
+			path = core;
+			sourceTree = "<group>";
+		};
+		460DE93315740DB200193C50 /* extras */ = {
+			isa = PBXGroup;
+			children = (
+				460DE93415740DB200193C50 /* animation */,
+				460DE93915740DB200193C50 /* cameras */,
+				460DE93C15740DB200193C50 /* ColorUtils.js */,
+				460DE93D15740DB200193C50 /* controls */,
+				460DE94315740DB200193C50 /* core */,
+				460DE94C15740DB200193C50 /* geometries */,
+				460DE95D15740DB200193C50 /* GeometryUtils.js */,
+				460DE95E15740DB200193C50 /* helpers */,
+				460DE96215740DB200193C50 /* ImageUtils.js */,
+				460DE96315740DB200193C50 /* modifiers */,
+				460DE96515740DB200193C50 /* objects */,
+				460DE96915740DB200193C50 /* renderers */,
+				460DE96F15740DB200193C50 /* SceneUtils.js */,
+				460DE97015740DB200193C50 /* shaders */,
+				460DE97315740DB200193C50 /* ShaderUtils.js */,
+			);
+			path = extras;
+			sourceTree = "<group>";
+		};
+		460DE93415740DB200193C50 /* animation */ = {
+			isa = PBXGroup;
+			children = (
+				460DE93515740DB200193C50 /* Animation.js */,
+				460DE93615740DB200193C50 /* AnimationHandler.js */,
+				460DE93715740DB200193C50 /* AnimationMorphTarget.js */,
+				460DE93815740DB200193C50 /* KeyFrameAnimation.js */,
+			);
+			path = animation;
+			sourceTree = "<group>";
+		};
+		460DE93915740DB200193C50 /* cameras */ = {
+			isa = PBXGroup;
+			children = (
+				460DE93A15740DB200193C50 /* CombinedCamera.js */,
+				460DE93B15740DB200193C50 /* CubeCamera.js */,
+			);
+			path = cameras;
+			sourceTree = "<group>";
+		};
+		460DE93D15740DB200193C50 /* controls */ = {
+			isa = PBXGroup;
+			children = (
+				460DE93E15740DB200193C50 /* FirstPersonControls.js */,
+				460DE93F15740DB200193C50 /* FlyControls.js */,
+				460DE94015740DB200193C50 /* PathControls.js */,
+				460DE94115740DB200193C50 /* RollControls.js */,
+				460DE94215740DB200193C50 /* TrackballControls.js */,
+			);
+			path = controls;
+			sourceTree = "<group>";
+		};
+		460DE94315740DB200193C50 /* core */ = {
+			isa = PBXGroup;
+			children = (
+				460DE94415740DB200193C50 /* BufferGeometry.js */,
+				460DE94515740DB200193C50 /* Curve.js */,
+				460DE94615740DB200193C50 /* CurvePath.js */,
+				460DE94715740DB200193C50 /* EventTarget.js */,
+				460DE94815740DB200193C50 /* Gyroscope.js */,
+				460DE94915740DB200193C50 /* Path.js */,
+				460DE94A15740DB200193C50 /* Shape.js */,
+				460DE94B15740DB200193C50 /* TextPath.js */,
+			);
+			path = core;
+			sourceTree = "<group>";
+		};
+		460DE94C15740DB200193C50 /* geometries */ = {
+			isa = PBXGroup;
+			children = (
+				460DE94D15740DB200193C50 /* CubeGeometry.js */,
+				460DE94E15740DB200193C50 /* CylinderGeometry.js */,
+				460DE94F15740DB200193C50 /* ExtrudeGeometry.js */,
+				460DE95015740DB200193C50 /* IcosahedronGeometry.js */,
+				460DE95115740DB200193C50 /* LatheGeometry.js */,
+				460DE95215740DB200193C50 /* OctahedronGeometry.js */,
+				460DE95315740DB200193C50 /* ParametricGeometries.js */,
+				460DE95415740DB200193C50 /* ParametricGeometry.js */,
+				460DE95515740DB200193C50 /* PlaneGeometry.js */,
+				460DE95615740DB200193C50 /* PolyhedronGeometry.js */,
+				460DE95715740DB200193C50 /* SphereGeometry.js */,
+				460DE95815740DB200193C50 /* TetrahedronGeometry.js */,
+				460DE95915740DB200193C50 /* TextGeometry.js */,
+				460DE95A15740DB200193C50 /* TorusGeometry.js */,
+				460DE95B15740DB200193C50 /* TorusKnotGeometry.js */,
+				460DE95C15740DB200193C50 /* TubeGeometry.js */,
+			);
+			path = geometries;
+			sourceTree = "<group>";
+		};
+		460DE95E15740DB200193C50 /* helpers */ = {
+			isa = PBXGroup;
+			children = (
+				460DE95F15740DB200193C50 /* ArrowHelper.js */,
+				460DE96015740DB200193C50 /* AxisHelper.js */,
+				460DE96115740DB200193C50 /* CameraHelper.js */,
+			);
+			path = helpers;
+			sourceTree = "<group>";
+		};
+		460DE96315740DB200193C50 /* modifiers */ = {
+			isa = PBXGroup;
+			children = (
+				460DE96415740DB200193C50 /* SubdivisionModifier.js */,
+			);
+			path = modifiers;
+			sourceTree = "<group>";
+		};
+		460DE96515740DB200193C50 /* objects */ = {
+			isa = PBXGroup;
+			children = (
+				460DE96615740DB200193C50 /* ImmediateRenderObject.js */,
+				460DE96715740DB200193C50 /* LensFlare.js */,
+				460DE96815740DB200193C50 /* MorphBlendMesh.js */,
+			);
+			path = objects;
+			sourceTree = "<group>";
+		};
+		460DE96915740DB200193C50 /* renderers */ = {
+			isa = PBXGroup;
+			children = (
+				460DE96A15740DB200193C50 /* plugins */,
+			);
+			path = renderers;
+			sourceTree = "<group>";
+		};
+		460DE96A15740DB200193C50 /* plugins */ = {
+			isa = PBXGroup;
+			children = (
+				460DE96B15740DB200193C50 /* DepthPassPlugin.js */,
+				460DE96C15740DB200193C50 /* LensFlarePlugin.js */,
+				460DE96D15740DB200193C50 /* ShadowMapPlugin.js */,
+				460DE96E15740DB200193C50 /* SpritePlugin.js */,
+			);
+			path = plugins;
+			sourceTree = "<group>";
+		};
+		460DE97015740DB200193C50 /* shaders */ = {
+			isa = PBXGroup;
+			children = (
+				460DE97115740DB200193C50 /* ShaderFlares.js */,
+				460DE97215740DB200193C50 /* ShaderSprite.js */,
+			);
+			path = shaders;
+			sourceTree = "<group>";
+		};
+		460DE97415740DB200193C50 /* lights */ = {
+			isa = PBXGroup;
+			children = (
+				460DE97515740DB200193C50 /* AmbientLight.js */,
+				460DE97615740DB200193C50 /* DirectionalLight.js */,
+				460DE97715740DB200193C50 /* Light.js */,
+				460DE97815740DB200193C50 /* PointLight.js */,
+				460DE97915740DB200193C50 /* SpotLight.js */,
+			);
+			path = lights;
+			sourceTree = "<group>";
+		};
+		460DE97A15740DB200193C50 /* loaders */ = {
+			isa = PBXGroup;
+			children = (
+				460DE97B15740DB200193C50 /* BinaryLoader.js */,
+				460DE97C15740DB200193C50 /* ImageLoader.js */,
+				460DE97D15740DB200193C50 /* JSONLoader.js */,
+				460DE97E15740DB200193C50 /* Loader.js */,
+				460DE97F15740DB200193C50 /* SceneLoader.js */,
+			);
+			path = loaders;
+			sourceTree = "<group>";
+		};
+		460DE98015740DB200193C50 /* materials */ = {
+			isa = PBXGroup;
+			children = (
+				460DE98115740DB200193C50 /* LineBasicMaterial.js */,
+				460DE98215740DB200193C50 /* Material.js */,
+				460DE98315740DB200193C50 /* MeshBasicMaterial.js */,
+				460DE98415740DB200193C50 /* MeshDepthMaterial.js */,
+				460DE98515740DB200193C50 /* MeshFaceMaterial.js */,
+				460DE98615740DB200193C50 /* MeshLambertMaterial.js */,
+				460DE98715740DB200193C50 /* MeshNormalMaterial.js */,
+				460DE98815740DB200193C50 /* MeshPhongMaterial.js */,
+				460DE98915740DB200193C50 /* ParticleBasicMaterial.js */,
+				460DE98A15740DB200193C50 /* ParticleCanvasMaterial.js */,
+				460DE98B15740DB200193C50 /* ParticleDOMMaterial.js */,
+				460DE98C15740DB200193C50 /* ShaderMaterial.js */,
+			);
+			path = materials;
+			sourceTree = "<group>";
+		};
+		460DE98D15740DB200193C50 /* objects */ = {
+			isa = PBXGroup;
+			children = (
+				460DE98E15740DB200193C50 /* Bone.js */,
+				460DE98F15740DB200193C50 /* Line.js */,
+				460DE99015740DB200193C50 /* LOD.js */,
+				460DE99115740DB200193C50 /* Mesh.js */,
+				460DE99215740DB200193C50 /* MorphAnimMesh.js */,
+				460DE99315740DB200193C50 /* Particle.js */,
+				460DE99415740DB200193C50 /* ParticleSystem.js */,
+				460DE99515740DB200193C50 /* Ribbon.js */,
+				460DE99615740DB200193C50 /* SkinnedMesh.js */,
+				460DE99715740DB200193C50 /* Sprite.js */,
+			);
+			path = objects;
+			sourceTree = "<group>";
+		};
+		460DE99815740DB200193C50 /* renderers */ = {
+			isa = PBXGroup;
+			children = (
+				460DE99915740DB200193C50 /* CanvasRenderer.js */,
+				460DE99A15740DB200193C50 /* DOMRenderer.js */,
+				460DE99B15740DB200193C50 /* renderables */,
+				460DE9A215740DB200193C50 /* SVGRenderer.js */,
+				460DE9A315740DB200193C50 /* WebGLRenderer.js */,
+				460DE9A415740DB200193C50 /* WebGLRenderTarget.js */,
+				460DE9A515740DB200193C50 /* WebGLRenderTargetCube.js */,
+				460DE9A615740DB200193C50 /* WebGLShaders.js */,
+			);
+			path = renderers;
+			sourceTree = "<group>";
+		};
+		460DE99B15740DB200193C50 /* renderables */ = {
+			isa = PBXGroup;
+			children = (
+				460DE99C15740DB200193C50 /* RenderableFace3.js */,
+				460DE99D15740DB200193C50 /* RenderableFace4.js */,
+				460DE99E15740DB200193C50 /* RenderableLine.js */,
+				460DE99F15740DB200193C50 /* RenderableObject.js */,
+				460DE9A015740DB200193C50 /* RenderableParticle.js */,
+				460DE9A115740DB200193C50 /* RenderableVertex.js */,
+			);
+			path = renderables;
+			sourceTree = "<group>";
+		};
+		460DE9A715740DB200193C50 /* scenes */ = {
+			isa = PBXGroup;
+			children = (
+				460DE9A815740DB200193C50 /* Fog.js */,
+				460DE9A915740DB200193C50 /* FogExp2.js */,
+				460DE9AA15740DB200193C50 /* Scene.js */,
+			);
+			path = scenes;
+			sourceTree = "<group>";
+		};
+		460DE9AB15740DB200193C50 /* textures */ = {
+			isa = PBXGroup;
+			children = (
+				460DE9AC15740DB200193C50 /* DataTexture.js */,
+				460DE9AD15740DB200193C50 /* Texture.js */,
+			);
+			path = textures;
+			sourceTree = "<group>";
+		};
+		46BEE6A1143F14D400F3867D = {
+			isa = PBXGroup;
+			children = (
+				46BEE6AF143F14D500F3867D /* Compressor */,
+				46BEE6AD143F14D500F3867D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		46BEE6AD143F14D500F3867D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				46BEE6AC143F14D500F3867D /* Compressor */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		46BEE6AF143F14D500F3867D /* Compressor */ = {
+			isa = PBXGroup;
+			children = (
+				469C4C56170659880010F76D /* include */,
+				460DE90115740DB200193C50 /* test_files */,
+				46BEE6BF143F167000F3867D /* Makefile */,
+				46BEE6BD143F164D00F3867D /* tokens.l */,
+				46BEE6BE143F164D00F3867D /* parser.y */,
+				464A31A0173940CB0038F92C /* pre_tokens.l */,
+				464A319F173940CB0038F92C /* pre_parser.y */,
+				46BEE6B0143F14D500F3867D /* main.cpp */,
+				464A31A2173940CB0038F92C /* preprocessor.hpp */,
+				464A31A1173940CB0038F92C /* preprocessor.cpp */,
+				4630A588149B658F004E5C48 /* types.hpp */,
+				4630A586149B6582004E5C48 /* types.cpp */,
+				460DB3101489057B0095C027 /* expressions.hpp */,
+				46C650A71488EC8100A8249D /* expressions.cpp */,
+				46F0783F148CEA3F00990135 /* instructions.hpp */,
+				46F0783D148CEA2D00990135 /* instructions.cpp */,
+				46E9D22C175508CC00CDCE7D /* blocks.hpp */,
+				46E9D22B175508CC00CDCE7D /* blocks.cpp */,
+				46F07840148D293400990135 /* workspace.hpp */,
+				46F07841148D294600990135 /* workspace.cpp */,
+			);
+			path = Compressor;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		46BEE6B9143F156800F3867D /* compr */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 46BEE6BA143F156800F3867D /* Build configuration list for PBXLegacyTarget "compr" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/bin/make;
+			buildWorkingDirectory = /Users/orlandoleite/Documents/Compressor/Compressor;
+			dependencies = (
+			);
+			name = compr;
+			passBuildSettingsInEnvironment = 1;
+			productName = compr;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXNativeTarget section */
+		46BEE6AB143F14D400F3867D /* Compressor */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 46BEE6B6143F14D500F3867D /* Build configuration list for PBXNativeTarget "Compressor" */;
+			buildPhases = (
+				46BEE6A8143F14D400F3867D /* Sources */,
+				46BEE6A9143F14D400F3867D /* Frameworks */,
+				46BEE6AA143F14D400F3867D /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Compressor;
+			productName = Compressor;
+			productReference = 46BEE6AC143F14D500F3867D /* Compressor */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		46BEE6A3143F14D400F3867D /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 46BEE6A6143F14D400F3867D /* Build configuration list for PBXProject "Compressor" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 46BEE6A1143F14D400F3867D;
+			productRefGroup = 46BEE6AD143F14D500F3867D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				46BEE6B9143F156800F3867D /* compr */,
+				46BEE6AB143F14D400F3867D /* Compressor */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		46BEE6A8143F14D400F3867D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				46BEE6B1143F14D500F3867D /* main.cpp in Sources */,
+				46E9D22D175508CC00CDCE7D /* blocks.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		46BEE6B4143F14D500F3867D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		46BEE6B5143F14D500F3867D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		46BEE6B7143F14D500F3867D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		46BEE6B8143F14D500F3867D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		46BEE6BB143F156800F3867D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEBUGGING_SYMBOLS = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		46BEE6BC143F156800F3867D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		46BEE6A6143F14D400F3867D /* Build configuration list for PBXProject "Compressor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46BEE6B4143F14D500F3867D /* Debug */,
+				46BEE6B5143F14D500F3867D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		46BEE6B6143F14D500F3867D /* Build configuration list for PBXNativeTarget "Compressor" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46BEE6B7143F14D500F3867D /* Debug */,
+				46BEE6B8143F14D500F3867D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		46BEE6BA143F156800F3867D /* Build configuration list for PBXLegacyTarget "compr" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				46BEE6BB143F156800F3867D /* Debug */,
+				46BEE6BC143F156800F3867D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 46BEE6A3143F14D400F3867D /* Project object */;
+}
