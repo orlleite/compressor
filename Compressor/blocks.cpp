@@ -504,3 +504,91 @@ const std::string &AInstExternalProp::codeGen( Context *ctx )
 	return "";
 };
 
+
+// AInstInterfaceMethod //
+AInstInterfaceMethod::AInstInterfaceMethod( AExpression *name, ATypage *typage, AInstructionVector *args )
+	: AInstDeclareFunc::AInstDeclareFunc( name, typage, args, new AInstructionVector() )
+{
+	
+};
+
+void AInstInterfaceMethod::setXName( AObject *target )
+{
+	_xname = PackageManager::interfaceNewName();
+	target->objects->insert( make_pair( rname, this ) );
+};
+
+const std::string &AInstInterfaceMethod::codeGen( Context *ctx )
+{
+#if defined( INTERNAL_DEBUG ) && defined( DEBUG_CODEGEN_BLOCK )
+	INTERNAL_LOG( "CodeGen AInstInterfaceMethod" );
+#endif
+	
+	AObject *temp = ctx->cthis->objectByName( rname );
+	
+	if( temp )
+		return temp->xname();
+	else
+		ERROR_LOG( errorList1[26], PackageManager::currentLine, PackageManager::currentFile.c_str(), ctx->cthis->rname.c_str(), rname.c_str(), owner->rname.c_str() );
+
+};
+
+
+// AInstInterfaceGet //
+AInstInterfaceGet::AInstInterfaceGet( AExpression *name, ATypage *typage, AInstructionVector *args )
+	: AInstDeclareGet::AInstDeclareGet( name, typage, args, new AInstructionVector() )
+{
+	
+};
+
+void AInstInterfaceGet::setXName( AObject *target )
+{
+	_xname = PackageManager::interfaceNewName();
+	target->objects->insert( make_pair( rname, this ) );
+	((AInstDeclareClass *)target)->getters->insert( make_pair( rname, this ) );
+};
+
+const std::string &AInstInterfaceGet::codeGen( Context *ctx )
+{
+#if defined( INTERNAL_DEBUG ) && defined( DEBUG_CODEGEN_BLOCK )
+	INTERNAL_LOG( "CodeGen AInstInterfaceGet" );
+#endif
+	
+	AObject *temp = ((AInstDeclareClass *)ctx->cthis)->getterByName( rname );
+	
+	if( temp )
+		return temp->xname();
+	else
+		ERROR_LOG( errorList1[27], PackageManager::currentLine, PackageManager::currentFile.c_str(), ctx->cthis->rname.c_str(), rname.c_str(), owner->rname.c_str() );
+};
+
+
+// AInstInterfaceSet //
+AInstInterfaceSet::AInstInterfaceSet( AExpression *name, ATypage *typage, AInstructionVector *args )
+	: AInstDeclareSet::AInstDeclareSet( name, typage, args, new AInstructionVector() )
+{
+	
+};
+
+void AInstInterfaceSet::setXName( AObject *target )
+{
+	_xname = PackageManager::interfaceNewName();
+	target->objects->insert( make_pair( rname, this ) );
+	((AInstDeclareClass *)target)->setters->insert( make_pair( rname, this ) );
+};
+
+const std::string &AInstInterfaceSet::codeGen( Context *ctx )
+{
+#if defined( INTERNAL_DEBUG ) && defined( DEBUG_CODEGEN_BLOCK )
+	INTERNAL_LOG( "CodeGen AInstInterfaceSet" );
+#endif
+	
+	AObject *temp = ((AInstDeclareClass *)ctx->cthis)->setterByName( rname );
+	
+	if( temp )
+		return temp->xname();
+	else
+		ERROR_LOG( errorList1[28], PackageManager::currentLine, PackageManager::currentFile.c_str(), ctx->cthis->rname.c_str(), rname.c_str(), owner->rname.c_str() );
+};
+
+

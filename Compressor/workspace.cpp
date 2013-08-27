@@ -137,6 +137,7 @@ PackageMap *PackageManager::map = NULL;
 NanoFile *PackageManager::cfile = NULL;
 AObjectMap *PackageManager::objects = new AObjectMap();
 std::string PackageManager::names = "a";
+std::string PackageManager::internames = "a";
 AExpressionDeque *PackageManager::toImport = new AExpressionDeque();
 StringDeque *PackageManager::imported = new StringDeque();
 StringDeque *PackageManager::allImports = new StringDeque();
@@ -163,7 +164,6 @@ AInstPack *PackageManager::setCurrentPath( AExpression *pathObj )
 	if( !dirs->size() && !loadingBaseFile )
 	{
 		// std::string file(currentFile);
-		// log( currentFile );
 		
 		StringDeque *list = stringSplit( currentFile, '/' );
 		if( list->size() ) list->pop_back();
@@ -187,7 +187,7 @@ AInstPack *PackageManager::setCurrentPath( AExpression *pathObj )
 		 */
 		
 		// log( res << std::endl;
-		
+		// log( res );
 		dirs->push_back( res );
 	}
 	
@@ -315,12 +315,12 @@ void PackageManager::startWithPath( const std::string &base, const std::string &
 	
 	// Load the first file //
 	expit = toImport->begin();
-	currentFile = path;
 	loadingBaseFile = false;
 	if( !pp->processFile( path ) )
 	{
 		ERROR_LOG( errorList1[2], path.c_str() );
 	}
+	currentFile = path;
 	yyparse();
 	
 	
@@ -451,6 +451,41 @@ const std::string &PackageManager::newname()
 	return *temp;
 }
 
+const std::string &PackageManager::interfaceNewName()
+{
+#if defined( INTERNAL_DEBUG ) && defined( DEBUG_PACKAGE )
+	INTERNAL_LOG( "InterfaceNewName" );
+#endif
+	
+	std::string *temp = new std::string( "__" + internames );
+	
+	int length = internames.size();
+	int pos = length - 1;
+	if( length == 1 )
+	{
+		if( internames[pos] == 'z' )
+			internames[pos] = 'A';
+		else if( internames[pos] == 'Z' )
+			internames = "aa";
+		else
+			internames[pos] += 1;
+	}
+	else
+	{
+		if( internames[pos] == 'z' )
+			internames[pos] = 'A';
+		else if( internames[pos] == 'Z' )
+			internames[pos] = '0';
+		else if( internames[pos] == '9' )
+			internames += "a";
+		else
+			internames[pos] += 1;
+	}
+	
+	return *temp;
+
+}
+
 
 AObject *PackageManager::getObject( std::string &name )
 {
@@ -523,6 +558,18 @@ AObject *PackageManager::getObject( std::string &name )
 	else
 		return inter->second;
 };
+
+AObject *PackageManager::getExternalGlobalVar( std::string &name )
+{
+	const std::string path = cfile->path + "." + name;
+	AObjectMap::iterator inter = objects->find( path );
+	
+	if( typeid(inter->second) == typeid(AInstExternalGlobalVar) )
+		return inter->second;
+	else
+		return NULL;
+
+}
 
 void PackageManager::appendBlockToCodeGen( FileBlock *block )
 {
@@ -603,10 +650,10 @@ AInstDeclareClass::AInstDeclareClass( AExpression *name, ATypage *extends, AExpr
 	: AObject::AObject()
 {
 	this->extends = NULL;
+	this->implements = NULL;
 	
 	this->block = block;
 	this->value = name;
-	this->implements = implements;
 	this->rname = name->codeGen( NULL );
 	this->getters = new AObjectMap();
 	this->setters = new AObjectMap();
@@ -625,6 +672,21 @@ AInstDeclareClass::AInstDeclareClass( AExpression *name, ATypage *extends, AExpr
 	if( parent )
 	{
 		AObject::names = parent->names();
+	}
+	
+	if( implements )
+	{
+		this->implements = new AObjectVector();
+		
+		AExpressionVector::const_iterator it;
+		AObject *temp;
+		
+		for( it = implements->begin(); it != implements->end(); it++ )
+		{
+			std::string iname = (*it)->codeGen(NULL);
+			temp = (AInstDeclareClass *) PackageManager::getObject( iname );
+			this->implements->push_back( temp );
+		}
 	}
 	
 	AObjectVector::const_iterator it;
@@ -775,6 +837,14 @@ const std::string &AInstDeclareClass::codeGen( Context *ctx )
 		}
 	}
 	
+	if( this->implements )
+	{
+		for( it = this->implements->begin(); it != this->implements->end(); it++ )
+		{
+			*temp += (*it)->codeGen( cctx );
+		}
+	}
+	
 	// *temp += LINE_BREAK + "}";
 	
 	if( statics->size() > 0 ) *temp += ";" + LINE_BREAK + *statics;
@@ -802,7 +872,65 @@ const std::string &AInstExternalClass::codeGen( Context *ctx )
 	
 	return "";
 }
-							
+
+AInstDeclareInterface::AInstDeclareInterface( AExpression *name, AObjectVector *block )
+	: AInstDeclareClass::AInstDeclareClass( name, NULL, NULL, block )
+{
+	
+}
+
+const std::string &AInstDeclareInterface::xname()
+{
+	return "";
+}
+
+const std::string &AInstDeclareInterface::codeGen( Context *ctx )
+{
+#if defined( INTERNAL_DEBUG ) && defined( DEBUG_CODEGEN_WORKSPACE )
+	INTERNAL_LOG( "CodeGen AInstDeclareInterface" );
+#endif
+	
+	std::string *temp = new std::string( "" );
+	
+	AObjectVector::const_iterator it;
+	bool first = true;
+	
+	std::string name = ctx->cthis->xname();
+	
+	for( it = this->block->begin(); it != this->block->end(); it++ )
+	{
+		if( !first ) *temp += ";" + LINE_BREAK;
+		
+		*temp += ctx->tabs + name + "._." + (**it).codeGen( ctx );
+		
+		first = false;
+	}
+	
+	return *temp;
+}
+
+AInstExternalGlobalVar::AInstExternalGlobalVar( AExpression *name, ATypage *typage, AExpression *id )
+	: AInstDeclareClass::AInstDeclareClass( name, NULL, NULL, NULL )
+{
+	this->id = id;
+	this->external = true;
+}
+
+const std::string &AInstExternalGlobalVar::xname()
+{
+	return this->id->codeGen(NULL);
+}
+
+const std::string &AInstExternalGlobalVar::codeGen( Context *ctx )
+{
+#if defined( INTERNAL_DEBUG ) && defined( DEBUG_CODEGEN_WORKSPACE )
+	INTERNAL_LOG( "CodeGen AInstExternalGlogalVar" );
+#endif
+	
+	return "";
+}
+
+
 const std::string &mainCodeGen( FileBlockDeque *block )
 {
 #if defined( INTERNAL_DEBUG ) && defined( DEBUG_CODEGEN_WORKSPACE )

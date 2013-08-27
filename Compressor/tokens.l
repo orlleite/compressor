@@ -167,6 +167,7 @@ yyterminate();
 "in"			{ TOKEN(TIN); return TIN; }
 "extends"		{ TOKEN(TEXTENDS); return TEXTENDS; }
 "implements"	{ TOKEN(TIMPLEMENTS); return TIMPLEMENTS; }
+"interface"		{ TOKEN(TINTERFACE); return TINTERFACE; }
 "external"		{ TOKEN(TEXTERNAL); return TEXTERNAL; }
 "customize"		{ TOKEN(TCUSTOMIZE); return TCUSTOMIZE; }
 "export"		{ TOKEN(TEXPORT); return TEXPORT; }

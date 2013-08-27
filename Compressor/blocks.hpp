@@ -135,4 +135,30 @@ class AInstExternalProp : public AInstDeclareProp
 		virtual const std::string &codeGen( Context *ctx );
 };
 
+
+// INTERFACE //
+class AInstInterfaceMethod : public AInstDeclareFunc
+{
+	public:
+		AInstInterfaceMethod( AExpression *name, ATypage *typage, AInstructionVector *args );
+		virtual void setXName( AObject *target );
+		virtual const std::string &codeGen( Context *ctx );
+};
+
+class AInstInterfaceGet : public AInstDeclareGet
+{
+	public:
+		AInstInterfaceGet( AExpression *name, ATypage *typage, AInstructionVector *args );
+		virtual void setXName( AObject *target );
+		virtual const std::string &codeGen( Context *ctx );
+};
+
+class AInstInterfaceSet : public AInstDeclareSet
+{
+	public:
+		AInstInterfaceSet( AExpression *name, ATypage *typage, AInstructionVector *args );
+		virtual void setXName( AObject *target );
+		virtual const std::string &codeGen( Context *ctx );
+};
+
 #endif /* defined(__Compressor__blocks__) */

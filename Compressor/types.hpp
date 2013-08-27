@@ -32,7 +32,7 @@
 /*
  This is used to debug the nano processor itself. The name represent the position in files
  */
-// #define INTERNAL_DEBUG true
+#define INTERNAL_DEBUG true
 // #define DEBUG_CREATE_EXPRESSION true
 // #define DEBUG_CREATE_INSTRUCTION true
 // #define DEBUG_CREATE_BLOCKS true

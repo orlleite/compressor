@@ -36,6 +36,7 @@ class Package;
 class RootObject;
 class FileBlock;
 class AInstDeclareClass;
+class AInstExternalGlobalVar;
 
 typedef std::deque<FileBlock *> FileBlockDeque;
 
@@ -67,6 +68,7 @@ class PackageManager
 	private:
 		static FileBlockDeque *toCodeGen;
 		static std::string names;
+		static std::string internames;/* interface names */
 		static PackageMap *map;
 		static NanoFile *cfile;
 		static StringDeque *dirs;
@@ -83,6 +85,7 @@ class PackageManager
 		static std::string currentFile;
 		static AExpression *currentPathObj;
 		static const std::string &newname();
+		static const std::string &interfaceNewName();
 	
 		static AExpressionDeque::iterator expit;
 		/*
@@ -97,6 +100,7 @@ class PackageManager
 		static AInstPack *addImportPath( AExpression *pathObj );
 		static const std::string &appendClass( AInstDeclareClass *obj );
 		static AObject *getObject( std::string &name );
+		static AObject  *getExternalGlobalVar( std::string &name );
 		
 		static void appendBlockToCodeGen( FileBlock *block );
 		static AObject *searchObjectInPackage( std::string &name );
@@ -119,7 +123,7 @@ class PackageManager
 class AInstDeclareClass : public AObject
 {
 	protected:
-		AExpressionVector *implements;
+		AObjectVector *implements;
 		AObjectVector *block;
 		
 	public:
@@ -152,6 +156,26 @@ class AInstExternalClass : public AInstDeclareClass
 		virtual const std::string &codeGen( Context *ctx );
 		virtual const std::string &xname();
 };
+
+class AInstDeclareInterface : public AInstDeclareClass
+{
+	public:
+		AInstDeclareInterface( AExpression *name, AObjectVector *block );
+		virtual const std::string &codeGen( Context *ctx );
+		virtual const std::string &xname();
+};
+
+class AInstExternalGlobalVar : public AInstDeclareClass
+{
+	protected:
+		AExpression *id;
+	
+	public:
+		AInstExternalGlobalVar( AExpression *name, ATypage *typage, AExpression *id );
+		virtual const std::string &codeGen( Context *ctx );
+		virtual const std::string &xname();
+};
+
 
 const std::string &mainCodeGen( FileBlockDeque *block );
 

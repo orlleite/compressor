@@ -111,42 +111,42 @@ void replaceAll( std::string& str, const std::string& from, const std::string& t
 };
 
 
-// ALine //
-ALine::ALine( TokenInfo *token )
+// PLine //
+PLine::PLine( TokenInfo *token )
 {
 	this->token = token;
 };
 
-const std::string &ALine::codeGen()
+const std::string &PLine::codeGen()
 {
 	return pp->replaceDefinitions( this->token->value );
 };
 
 
-// ADefine //
-ADefine::ADefine( TokenInfo *name, TokenInfo *value ) : ALine::ALine( name )
+// PDefine //
+PDefine::PDefine( TokenInfo *name, TokenInfo *value ) : PLine::PLine( name )
 {
 	this->value = value;
 	pp->addDef( token->value, value->value );
 };
 
-const std::string &ADefine::codeGen()
+const std::string &PDefine::codeGen()
 {
 	return "\n";
 };
 
 
-// AIfDef //
-AIfDef::AIfDef( TokenInfo *token ) : ALine::ALine( token )
+// PIfDef //
+PIfDef::PIfDef( PExpression *a ) : PLine::PLine( NULL )
 {
-	
+	this->a = a;
 };
 
-const std::string &AIfDef::codeGen()
+const std::string &PIfDef::codeGen()
 {
 	pp->ifstate = true;
 	
-	if( pp->isDef( token->value ) )
+	if( a->result() )
 	{
 		pp->ifgotone = true;
 		return "\n";
@@ -159,13 +159,13 @@ const std::string &AIfDef::codeGen()
 };
 
 
-// AElseIfDef //
-AElseIfDef::AElseIfDef( TokenInfo *token ) : ALine::ALine( token )
+// PElseIfDef //
+PElseIfDef::PElseIfDef( PExpression *a ) : PLine::PLine( NULL )
 {
-	
+	this->a = a;
 };
 
-const std::string &AElseIfDef::codeGen()
+const std::string &PElseIfDef::codeGen()
 {
 	if( !pp->ifstate )
 	{
@@ -174,7 +174,7 @@ const std::string &AElseIfDef::codeGen()
 		exit( 1 );
 	}
 	
-	if( !pp->ifgotone && pp->isDef( token->value ) )
+	if( !pp->ifgotone && a->result() )
 	{
 		pp->ifgotone = true;
 		pp->ifcopen = false;
@@ -192,13 +192,13 @@ const std::string &AElseIfDef::codeGen()
 };
 
 
-// AElseDef //
-AElseDef::AElseDef() : ALine::ALine( NULL )
+// PElseDef //
+PElseDef::PElseDef() : PLine::PLine( NULL )
 {
 	
 };
 
-const std::string &AElseDef::codeGen()
+const std::string &PElseDef::codeGen()
 {
 	if( !pp->ifstate )
 	{
@@ -225,13 +225,13 @@ const std::string &AElseDef::codeGen()
 };
 
 
-// AEndIfDef //
-AEndIfDef::AEndIfDef() : ALine::ALine( NULL )
+// PEndIfDef //
+PEndIfDef::PEndIfDef() : PLine::PLine( NULL )
 {
 	
 };
 
-const std::string &AEndIfDef::codeGen()
+const std::string &PEndIfDef::codeGen()
 {
 	if( !pp->ifstate )
 	{
@@ -249,6 +249,69 @@ const std::string &AEndIfDef::codeGen()
 	}
 	else
 		return "\n";
+};
+
+
+// PExpression //
+PExpression::PExpression( TokenInfo *token )
+{
+	this->token = token;
+	this->a = NULL;
+	this->b = NULL;
+};
+
+bool PExpression::result()
+{
+	// std::cout << token->value;
+	return pp->isDef( token->value );
+};
+
+// AExprParent //
+PExpParent::PExpParent( PExpression *a ) : PExpression::PExpression( NULL )
+{
+	this->a = a;
+};
+
+bool PExpParent::result()
+{
+	return this->a->result();
+}
+
+PExpNot::PExpNot( TokenInfo *token ) : PExpression::PExpression( token )
+{
+	
+}
+
+bool PExpNot::result()
+{
+	return !PExpression::result();
+}
+
+
+// AExpOperation //
+PExpOperation::PExpOperation( PExpression *a, TokenInfo *token, PExpression *b )
+: PExpression::PExpression( token )
+{
+	this->a = a;
+	this->b = b;
+};
+
+bool PExpOperation::result()
+{
+	bool result;
+	
+	switch( this->token->type() )
+	{
+		case TOR:
+			result = this->a->result() || this->b->result();
+			break;
+            
+		case TAND:
+			result = this->a->result() && this->b->result();
+			break;
+	}
+	
+	return result;
 };
 
 
@@ -291,11 +354,11 @@ bool PreProcessor::isDef( std::string &name )
 		return false;
 }
 
-void PreProcessor::codeGenAndSave( ALineVector *block )
+void PreProcessor::codeGenAndSave( PLineVector *block )
 {
 	std::string *temp = new std::string();
 	
-	ALineVector::const_iterator it;
+	PLineVector::const_iterator it;
 	
 	for( it = block->begin(); it != block->end(); it++ )
 	{
@@ -368,7 +431,6 @@ std::string &PreProcessor::newname()
 bool PreProcessor::processFile( std::string filePath )
 {
 	FILE *file = fopen( filePath.c_str(), "r" );
-	
 	if( file )
 	{
 		ppnewfile( file );

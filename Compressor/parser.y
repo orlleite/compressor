@@ -55,7 +55,7 @@
 
 %token TEOF 0 "end of file"
 %token <tinfo> TEQ TNE TLT TLE TGT TGE TPLUS TMINUS TMULT TDIVIDE TMODULUS TINCREMENT TDECREMENT TNOT TEQA TNEA
-%token <tinfo> TRPAREN TLPAREN TRBRACKET TLBRACKET TRBRACE TLBRACE TIMPLEMENTS
+%token <tinfo> TRPAREN TLPAREN TRBRACKET TLBRACKET TRBRACE TLBRACE TIMPLEMENTS TINTERFACE
 %token <tinfo> TASSIGN TASSIGN_PLUS TASSIGN_MINUS TASSIGN_MULTIPLY TASSIGN_DIVIDE TASSIGN_BOR
 %token <tinfo> TSEMICOLON TCOMMA TDOT TCOLON TQUESTION TCONST TIMPORT TPACKAGE
 %token <tinfo> TOR TAND TBXOR TLSHIFT TRSHIFT TZFILL TBOR TBAND TBNOT TGET TSET TINSTANCEOF
@@ -72,8 +72,8 @@
 %type <inst> instruction for_args switch_inst declare_arg forin_var 
 %type <inst_list> block switch_block declare_args 
 
-%type <prop_list> external_class_block class_block props_declaration vars_declaration
-%type <prop> property proper2 external_property external_proper2 object
+%type <prop_list> external_class_block class_block interface_block props_declaration vars_declaration
+%type <prop> property proper2 external_property external_proper2 interface_property object
 %type <file_block> file_block
 
 %type <tinfo> assigning comparing access
@@ -101,8 +101,10 @@ object:
 	| TPACKAGE { $$ = PackageManager::setCurrentPath( NULL ); }
 	| TIMPORT package_path { $$ = PackageManager::addImportPath( $2 ); }
 	| TCLASS identifier extends implements TLBRACE class_block TRBRACE { $$ = new AInstDeclareClass( $2, $3, $4, $6 ); }
+	| TINTERFACE identifier TLBRACE interface_block TRBRACE { $$ = new AInstDeclareInterface( $2, $4 ); }
 	| TEXTERNAL TCLASS identifier extends implements TLBRACE external_class_block TRBRACE TASSIGN identifier { $$ = new AInstExternalClass( $3, $4, $5, $7, $10 ); }
 	| TFUNCTION identifier TLPAREN declare_args TRPAREN TCOLON typage TLBRACE block TRBRACE { $$ = new AInstDeclareFunc( $2, $7, $4, $9 ); }
+	| TEXTERNAL TVAR identifier TCOLON typage TASSIGN expression { $$ = new AInstExternalGlobalVar( $3, $5, $7 ); }
 	  ;
 
 block:
@@ -126,6 +128,13 @@ external_class_block:
 	| external_class_block TSEMICOLON { $$ = $1; }
 	;
 
+interface_block:
+	  { $$ = new AObjectVector(); }
+	| interface_property { $$ = new AObjectVector(); $$->push_back( $1 ); }
+	| class_block interface_property { $$ = $1; $1->push_back( $2 ); }
+	| class_block TSEMICOLON { $$ = $1; }
+	;
+
 extends:
 	  { $$ = NULL; }
 	| TEXTENDS typage { $$ = $2; }
@@ -135,6 +144,22 @@ implements:
 	  { $$ = NULL; }
 	| TIMPLEMENTS identifier { $$ = new AExpressionVector(); $$->push_back( $2 ); }
 	| implements TCOMMA identifier { $$ = $1; $1->push_back( $3 ); }
+	;
+
+property:
+	  access proper2 { $$ = $2; $2->access = $1->type(); }
+	| access TSTATIC proper2 { $$ = $3; $3->isStatic = true; $3->access = $1->type(); }
+	;
+
+proper2:
+	  TVAR identifier TCOLON typage { $$ = new AInstDeclareProp( $2, $4, NULL ); }
+	| TVAR identifier TCOLON typage TASSIGN expression { $$ = new AInstDeclareProp( $2, $4, $6 ); }
+	| TCONST identifier TCOLON typage TASSIGN expression { $$ = new AInstDeclareProp( $2, $4, $6 ); }
+	| TVAR props_declaration {  $$ = new AInstDeclareMultProp( $2 ); }
+	| TFUNCTION identifier TLPAREN declare_args TRPAREN TCOLON typage TLBRACE block TRBRACE { $$ = new AInstDeclareMethod( $2, $7, $4, $9 ); }
+	| TGET TFUNCTION identifier TLPAREN declare_args TRPAREN TCOLON typage TLBRACE block TRBRACE { $$ = new AInstDeclareGet( $3, $8, $5, $10 ); }
+	| TSET TFUNCTION identifier TLPAREN declare_args TRPAREN TCOLON typage TLBRACE block TRBRACE { $$ = new AInstDeclareSet( $3, $8, $5, $10 ); }
+	| TFUNCTION identifier TLPAREN declare_args TRPAREN TLBRACE block TRBRACE { $$ = new AInstDeclareMethod( $2, NULL, $4, $7 ); }
 	;
 
 external_property:
@@ -153,20 +178,10 @@ external_proper2:
 	| TFUNCTION identifier TLPAREN declare_args TRPAREN { $$ = new AInstExternalMethod( $2, NULL, $4, $2 ); }
 	;
 
-property:
-	  access proper2 { $$ = $2; $2->access = $1->type(); }
-	| access TSTATIC proper2 { $$ = $3; $3->isStatic = true; $3->access = $1->type(); }
-	;
-
-proper2:
-	  TVAR identifier TCOLON typage { $$ = new AInstDeclareProp( $2, $4, NULL ); }
-	| TVAR identifier TCOLON typage TASSIGN expression { $$ = new AInstDeclareProp( $2, $4, $6 ); }
-	| TCONST identifier TCOLON typage TASSIGN expression { $$ = new AInstDeclareProp( $2, $4, $6 ); }
-	| TVAR props_declaration {  $$ = new AInstDeclareMultProp( $2 ); }
-	| TFUNCTION identifier TLPAREN declare_args TRPAREN TCOLON typage TLBRACE block TRBRACE { $$ = new AInstDeclareMethod( $2, $7, $4, $9 ); }
-	| TGET TFUNCTION identifier TLPAREN declare_args TRPAREN TCOLON typage TLBRACE block TRBRACE { $$ = new AInstDeclareGet( $3, $8, $5, $10 ); }
-	| TSET TFUNCTION identifier TLPAREN declare_args TRPAREN TCOLON typage TLBRACE block TRBRACE { $$ = new AInstDeclareSet( $3, $8, $5, $10 ); }
-	| TFUNCTION identifier TLPAREN declare_args TRPAREN TLBRACE block TRBRACE { $$ = new AInstDeclareMethod( $2, NULL, $4, $7 ); }
+interface_property:
+	  TPUBLIC TFUNCTION identifier TLPAREN declare_args TRPAREN TCOLON typage { $$ = new AInstInterfaceMethod( $3, $8, $5 ); }
+	| TPUBLIC TGET TFUNCTION identifier TLPAREN declare_args TRPAREN TCOLON typage { $$ = new AInstInterfaceGet( $4, $9, $6 ); }
+	| TPUBLIC TSET TFUNCTION identifier TLPAREN declare_args TRPAREN TCOLON typage { $$ = new AInstInterfaceSet( $4, $9, $6 ); }
 	;
 
 access:

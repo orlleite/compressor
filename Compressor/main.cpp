@@ -105,7 +105,7 @@ int main (int argc, char **argv)
 		log( "Input: " << inputArg.getValue() );
 		PackageManager::startWithPath( baseArg.getValue(), inputArg.getValue() );
 		log( "Output: " << outputFile );
-		log( "Build Sucessfully." );
+		log( "Build Successfully." );
 		
 		return 0;
 		// return yyparse();

@@ -60,7 +60,14 @@
 
 <<EOF>>			{ yyterminate(); TOKEN(TEOF); return TEOF; }
 
-<IIFS>" "[a-zA-Z_][a-zA-Z0-9_]*[\r\n] { BEGIN INITIAL; SAVE_TOKEN(TDEFNAME, zztext+1, zzleng-2 ); return TDEFNAME; }
+<IIFS>[a-zA-Z_][a-zA-Z0-9_]* { SAVE_TOKEN(TDEFNAME, zztext, zzleng ); return TDEFNAME; }
+<IIFS>" " { ; }
+<IIFS>"!" { TOKEN(TNOT); return TNOT; }
+<IIFS>"||" { TOKEN(TOR); return TOR; }
+<IIFS>"&&" { TOKEN(TAND); return TAND; }
+<IIFS>"(" { TOKEN(TLPAREN); return TLPAREN; }
+<IIFS>")" { TOKEN(TRPAREN); return TRPAREN; }
+<IIFS>[\r\n] { BEGIN INITIAL; }
 "#endif"[\r\n] { return TENDIFDEF; }
 "#else"[\r\n] { return TELSEDEF; }
 "#elseif" { BEGIN IIFS; return TELSEIFDEF; }

@@ -74,9 +74,11 @@ char *errorList1 [] = {
 	"ERROR 0022, LINE %d, FILE \"%s\" | Setter do not support this kind of operation (yet).",
 	"ERROR 0023, LINE %d, FILE \"%s\" | Property has the same name of class constructor.",
 	"ERROR 0024, LINE %d, FILE \"%s\" | Properties cannot be \"write-only\".",
-	"ERROR 0025, LINE %d, FILE \"%s\" | Object not found.",
+	"ERROR 0025, LINE %d, FILE \"%s\" | Object %d cannot be found.",
+	"ERROR 0026, LINE %d, FILE \"%s\" | Class %s has no method %s needed for interface %s.",
+	"ERROR 0027, LINE %d, FILE \"%s\" | Class %s has no getter %s needed for interface %s.",
+	"ERROR 0028, LINE %d, FILE \"%s\" | Class %s has no setter %s needed for interface %s."
 };
-
 
 StringVector srcPaths;
 
@@ -173,7 +175,6 @@ const std::string &AExpression::correctName( Context *ctx )
 			// if( str == "MOUSE_DOWN" ) log( "cpath: " << typeid(ctx->cpath->typage).name() << " -> " << str << "\n";
 			
 			// log( "cpath: " << ctx->cpath->rname << " -> " << str << "\n";
-			
 			if( ctx->cpath->typage )
 			{
 				// log( ctx->cpath << std::endl;
@@ -242,6 +243,15 @@ const std::string &AExpression::correctName( Context *ctx )
 			}
 			else
 			{
+				inst = PackageManager::getExternalGlobalVar( str );
+				if( inst )
+				{
+					ctx->cpath = inst;
+					ctx->cpathClass = false;
+					
+					return *new std::string( inst->xname() );
+				}
+				
 				inst = PackageManager::getObject( str );
 				
 				if( inst )
@@ -392,6 +402,10 @@ const std::string &AObject::newname( const std::string &rname )
 			else if( names[pos] == 'Z' )
 				names[pos] = '0';
 			else if( names[pos] == '9' )
+				names[pos] = '_';
+			else if( names[pos] == '_' )
+				names[pos] = '$';
+			else if( names[pos] == '$' )
 				names += "a";
 			else
 				names[pos] += 1;

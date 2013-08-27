@@ -34,59 +34,98 @@
 // #define DEBUG_PARSER true
 
 class PreProcessor;
-class ALine;
+class PLine;
 
 typedef std::deque<std::string> StringDeque;
-typedef std::vector<ALine *> ALineVector;
+typedef std::vector<PLine *> PLineVector;
 typedef std::map<std::string, std::string> StringMap;
 
 extern PreProcessor *pp;
 
-class ALine
+class PLine
 {
 	protected:
 		TokenInfo *token;
 		
 	public:
-		ALine( TokenInfo *token );
+		PLine( TokenInfo *token );
 		virtual const std::string &codeGen();
 };
 
-class ADefine : public ALine
+class PDefine : public PLine
 {
 	protected:
 		TokenInfo *value;
 		
 	public:
-		ADefine( TokenInfo *name, TokenInfo *value );
+		PDefine( TokenInfo *name, TokenInfo *value );
 		virtual const std::string &codeGen();
 };
 
-class AIfDef : public ALine
+class PExpression
+{
+	protected:
+		TokenInfo *token;
+		PExpression *a;
+		PExpression *b;
+		
+	public:
+		PExpression( TokenInfo *token );
+		virtual bool result();
+};
+
+class PExpParent : public PExpression
 {
 	public:
-		AIfDef( TokenInfo *token );
+		PExpParent( PExpression *a );
+		virtual bool result();
+};
+
+class PExpOperation : public PExpression
+{
+	public:
+		PExpOperation( PExpression *a, TokenInfo *token, PExpression *b );
+		virtual bool result();
+};
+
+class PExpNot : public PExpression
+{
+	public:
+		PExpNot( TokenInfo *a );
+		virtual bool result();
+};
+
+class PIfDef : public PLine
+{
+	protected:
+		PExpression *a;
+	
+	public:
+		PIfDef( PExpression *a );
 		virtual const std::string &codeGen();
 };
 
-class AElseIfDef : public ALine
+class PElseIfDef : public PLine
 {
+	protected:
+		PExpression *a;
+	
 	public:
-		AElseIfDef( TokenInfo *token );
+		PElseIfDef( PExpression *a );
 		virtual const std::string &codeGen();
 };
 
-class AElseDef : public ALine
+class PElseDef : public PLine
 {
 	public:
-		AElseDef();
+		PElseDef();
 		virtual const std::string &codeGen();
 };
 
-class AEndIfDef : public ALine
+class PEndIfDef : public PLine
 {
 	public:
-		AEndIfDef();
+		PEndIfDef();
 		virtual const std::string &codeGen();
 };
 
@@ -109,7 +148,7 @@ class PreProcessor
 		void addDef( std::string &name, std::string &value );
 		bool isDef( std::string &name );
 		void removeDef( std::string &name );
-		void codeGenAndSave( ALineVector *block );
+		void codeGenAndSave( PLineVector *block );
 		void deleteTempFolder();
 	
 		const std::string &replaceDefinitions( const std::string &value );

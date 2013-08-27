@@ -28,23 +28,27 @@
 
 	extern int zzlex( void );
 	
-	void zzerror(const char *s) { printf("ERROR: %s\n", s); };
+	void zzerror(const char *s) { printf("PRE_ERROR: %s\n", s); };
 %}
 
 /* Represents the many different ways we can access our data */
 %union
 {
-	ALineVector *line_list;
-	ALine *line;
+	PLineVector *line_list;
+	PLine *line;
 
+	PExpression *expr;
 	TokenInfo *tinfo;
 	int token;
 }
 
-%token <tinfo> TLINE TEOF TDEFINE TDEFNAME TDEFVALUE TIFDEF TELSEIFDEF TELSEDEF TENDIFDEF
+%token <tinfo> TEOF TDEFINE TIFDEF TELSEIFDEF TELSEDEF TENDIFDEF TOR TAND TLPAREN TRPAREN TNOT
+%token <tinfo> TDEFNAME TDEFVALUE TLINE
 
+%type <tinfo> comparing
 %type <line_list> block
 %type <line> line
+%type <expr> expression expr2
 
 %%
 
@@ -53,19 +57,33 @@ input:
 	;
 
 block:
-	{ $$ = new ALineVector(); }
+	{ $$ = new PLineVector(); }
 	| block line { $$ = $1; if( $2 ) $1->push_back( $2 ); }
-	| line { $$ = new ALineVector(); if( $1 ) $$->push_back( $1 ); }
+	| line { $$ = new PLineVector(); if( $1 ) $$->push_back( $1 ); }
 	;
 
 line:
-	  TLINE { $$ = new ALine( $1 ); }
-	| TDEFINE TDEFNAME TDEFVALUE { $$ = new ADefine( $2, $3 ); }
-	| TIFDEF TDEFNAME { $$ = new AIfDef( $2 ); }
-	| TELSEIFDEF TDEFNAME { $$ = new AElseIfDef( $2 ); }
-	| TELSEDEF { $$ = new AElseDef(); }
-	| TENDIFDEF { $$ = new AEndIfDef(); }
+	  TLINE { $$ = new PLine( $1 ); }
+	| TDEFINE TDEFNAME TDEFVALUE { $$ = new PDefine( $2, $3 ); }
+	| TIFDEF expression { $$ = new PIfDef( $2 ); }
+	| TELSEIFDEF expression { $$ = new PElseIfDef( $2 ); }
+	| TELSEDEF { $$ = new PElseDef(); }
+	| TENDIFDEF { $$ = new PEndIfDef(); }
 	;
+
+expression:
+      expr2 { $$ = $1; }
+    | expression comparing expression { $$ = new PExpOperation( $1, $2, $3 ); }
+    ;
+
+expr2:
+      TLPAREN expression TRPAREN { $$ = new PExpParent( $2 ); }
+    | TDEFNAME {  $$ = new PExpression( $1 ); }
+    | TNOT TDEFNAME {  $$ = new PExpNot( $1 ); }
+    ;
+
+comparing:
+      TOR | TAND;
 
 aif:
 	 TIFDEF block aif
