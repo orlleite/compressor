@@ -49,56 +49,58 @@ AInstDeclareFunc::AInstDeclareFunc( AExpression *name, ATypage *typage, AInstruc
  */
 void AInstDeclareFunc::setXName( AObject *target )
 {
-	AObject *temp = target->objectByName( rname );
+	if( target )
+	{
+		AObject *temp = target->objectByName( rname );
 	
-	if( temp )
-	{
-		overwrite = true;
-		_xname = temp->xname();
-	}
-	else
-	{
-		if( target->rname == rname )
+		if( temp )
 		{
-			_xname = *new std::string( "_" );
+			overwrite = true;
+			_xname = temp->xname();
 		}
 		else
-			_xname = target->newname( rname );
-	}
-	
-	if( target->rname == rname && typeid(*target) == typeid(AInstDeclareClass) )
-	{
-		this->constructor = true;
-		((AInstDeclareClass *) target)->constructor = this;
-	}
-	else
-		target->objects->insert( make_pair( rname, this ) );
-	
-	
-	if( !this->owner )
-	{
-		this->owner = target;
-		AInstructionVector::const_iterator it;
-		
-		if( this->args )
 		{
-			for( it = this->args->begin(); it != this->args->end(); it++ )
+			if( target->rname == rname )
 			{
-				temp = (AObject *)(*it);
-				temp->setXName( this );
+				_xname = *new std::string( "_" );
 			}
+			else
+				_xname = target->newname( rname );
 		}
 		
-		if( this->block )
+		if( target->rname == rname && typeid(*target) == typeid(AInstDeclareClass) )
 		{
-			AInstruction *temp2;
-			for( it = this->block->begin(); it != this->block->end(); it++ )
-			{
-				temp2 = *it;
-				temp2->setXName( this );
-			}
+			this->constructor = true;
+			((AInstDeclareClass *) target)->constructor = this;
+		}
+		else
+			target->objects->insert( make_pair( rname, this ) );
+		
+		if( !this->owner ) this->owner = target;
+	}
+	
+	AObject *temp;
+	AInstructionVector::const_iterator it;
+	if( this->args )
+	{
+		for( it = this->args->begin(); it != this->args->end(); it++ )
+		{
+			temp = (AObject *)(*it);
+			temp->setXName( this );
 		}
 	}
+	
+	if( this->block )
+	{
+		AInstruction *temp2;
+		for( it = this->block->begin(); it != this->block->end(); it++ )
+		{
+			temp2 = *it;
+			temp2->setXName( this );
+		}
+	}
+	
+	started = true;
 }
 
 const std::string &AInstDeclareFunc::blockGen( Context *ctx )
@@ -145,6 +147,9 @@ const std::string &AInstDeclareFunc::codeGen( Context *ctx )
 #if defined( INTERNAL_DEBUG ) && defined( DEBUG_CODEGEN_BLOCK )
 	INTERNAL_LOG( "CodeGen AInstDeclareFunc" );
 #endif
+	
+	if( !started ) setXName( NULL );
+	
 	std::string tname = this->xname() == "" ? this->rname : this->xname();
 	std::string *temp = new std::string( ctx->tabs + "function " + tname + "(" );
 	std::string *defs = new std::string(); // defaults

@@ -36,6 +36,7 @@ class AInstDeclareFunc : public AObject
 		AInstructionVector *block;
 		AInstructionVector *args;
 		AObject *owner;
+		bool started;
 		
 	public:
 		AInstDeclareFunc( AExpression *name, ATypage *typage, AInstructionVector *args, AInstructionVector *block );
