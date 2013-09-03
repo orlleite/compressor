@@ -49,7 +49,6 @@ AInstDeclareFunc::AInstDeclareFunc( AExpression *name, ATypage *typage, AInstruc
  */
 void AInstDeclareFunc::setXName( AObject *target )
 {
-	log("called setXName " << rname << " - " << target );
 	AObject *temp = target->objectByName( rname );
 	
 	if( temp )
@@ -203,13 +202,11 @@ const std::string &AInstDeclareFunc::codeGen( Context *ctx )
 AInstDeclareAnoFunc::AInstDeclareAnoFunc( TokenInfo *token, ATypage *typage, AInstructionVector *args, AInstructionVector *block )
 : AInstDeclareFunc::AInstDeclareFunc( NULL, typage, args, block ), AExpression::AExpression( token )
 {
-	log( "created" );
+	
 };
 
 void AInstDeclareAnoFunc::setXName( AObject *target )
 {
-	log("ano-func:setXName");
-	
 	if( !this->owner )
 	{
 		this->owner = target;
@@ -235,13 +232,10 @@ void AInstDeclareAnoFunc::setXName( AObject *target )
 			}
 		}
 	}
-	
-	log("finished");
 }
 
 AObject *AInstDeclareAnoFunc::objectByName( const std::string &name )
 {
-	log( "anony objectByName" );
 	AObject *result = AObject::objectByName( name );
 	
 	if( result )
@@ -252,7 +246,6 @@ AObject *AInstDeclareAnoFunc::objectByName( const std::string &name )
 
 bool AInstDeclareAnoFunc::objectByNameExists( const std::string &name )
 {
-	log( "anony objectByNameExists" );
 	bool result = AObject::objectByNameExists( name );
 	//log( name << ", " << result << ", " << owner->objectByName( name ) );
 	if( result )
@@ -263,15 +256,11 @@ bool AInstDeclareAnoFunc::objectByNameExists( const std::string &name )
 
 const std::string &AInstDeclareAnoFunc::codeGen( Context *ctx )
 {
-//#if defined( INTERNAL_DEBUG ) && defined( DEBUG_CODEGEN_BLOCK )
+#if defined( INTERNAL_DEBUG ) && defined( DEBUG_CODEGEN_BLOCK )
 	INTERNAL_LOG( "CodeGen AInstDeclareAnoFunc" );
-//#endif
+#endif
 	std::string *temp = new std::string( "function(" );
-	log( "temp " << *temp );
 	std::string *defs = new std::string(); // defaults
-	
-	log( "codegen ano" );
-	// setOwner( ctx->ctarget );
 	
 	Context *cctx = new Context();
 	cctx->cthis = ctx->ctarget;

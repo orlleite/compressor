@@ -54,15 +54,20 @@ extern int zzdebug;
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum zztokentype {
-     TLINE = 258,
-     TEOF = 259,
-     TDEFINE = 260,
-     TDEFNAME = 261,
-     TDEFVALUE = 262,
-     TIFDEF = 263,
-     TELSEIFDEF = 264,
-     TELSEDEF = 265,
-     TENDIFDEF = 266
+     TEOF = 258,
+     TDEFINE = 259,
+     TIFDEF = 260,
+     TELSEIFDEF = 261,
+     TELSEDEF = 262,
+     TENDIFDEF = 263,
+     TOR = 264,
+     TAND = 265,
+     TLPAREN = 266,
+     TRPAREN = 267,
+     TNOT = 268,
+     TDEFNAME = 269,
+     TDEFVALUE = 270,
+     TLINE = 271
    };
 #endif
 
@@ -73,15 +78,16 @@ typedef union ZZSTYPE
 /* Line 2053 of yacc.c  */
 #line 36 "pre_parser.y"
 
-	ALineVector *line_list;
-	ALine *line;
+	PLineVector *line_list;
+	PLine *line;
 
+	PExpression *expr;
 	TokenInfo *tinfo;
 	int token;
 
 
 /* Line 2053 of yacc.c  */
-#line 85 "pre_parser.hpp"
+#line 91 "pre_parser.hpp"
 } ZZSTYPE;
 # define ZZSTYPE_IS_TRIVIAL 1
 # define zzstype ZZSTYPE /* obsolescent; will be withdrawn */

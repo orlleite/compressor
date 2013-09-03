@@ -61,7 +61,6 @@ AInstDeclareVar::AInstDeclareVar( AExpression *name, ATypage *typage, AObject *v
 
 void AInstDeclareVar::setXName( AObject *target )
 {
-	if( this->func ) log("var setxname");
 	_xname = target->newname( rname );
 	if( this->func ) this->func->setXName( target );
 	target->objects->insert( make_pair( rname, this ) );
