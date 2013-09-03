@@ -509,12 +509,20 @@ const std::string &AExpCallFunc::codeGen( Context *ctx )
 	{
 		// log( ctx->cpath->rname << "\n";
 		std::string typage = ctx->cpath->typage->type;
-		AObject *inst = PackageManager::getObject( typage );
-		if( inst )
+		if( typage != "" )
 		{
-			ctx->cpath = new AObject();
-			ctx->cpath->typage = new ATypage( typage, false );
-			ctx->cpathClass = false;
+			AObject *inst = PackageManager::getObject( typage );
+			if( inst )
+			{
+				ctx->cpath = new AObject();
+				ctx->cpath->typage = new ATypage( typage, false );
+				ctx->cpathClass = false;
+			}
+			else
+			{
+				ctx->cpath = NULL;
+				ctx->cpathClass = false;
+			}
 		}
 		else
 		{

@@ -62,7 +62,7 @@
 %token <tinfo> TTRUE TFALSE TVAR TCONTINUE TBREAK TCASE TDEFAULT TNULL TRETURN TNEW TSUPER TTHIS
 %token <tinfo> TNUMBER TSTRING TNAME TCOMPVAR TPUBLIC TPRIVATE TPROTECTED TSTATIC TDELETE
 %token <tinfo> TIF TELSE TWHILE TTRY TCATCH TDO TFOR TIN TSWITCH TFUNCTION TCLASS TEXTENDS
-%token <tinfo> TCOMPNAME TCOMPGET TCOMPSET TREGEX TEXTERNAL TCUSTOMIZE TEXPORT
+%token <tinfo> TCOMPNAME TCOMPGET TCOMPSET TREGEX TEXTERNAL TCUSTOMIZE TEXPORT TVOID
 
 %type <expr> expression expr2 identifier
 %type <exp_type> typage extends
@@ -73,7 +73,7 @@
 %type <inst_list> block switch_block declare_args 
 
 %type <prop_list> external_class_block class_block interface_block props_declaration vars_declaration
-%type <prop> property proper2 external_property external_proper2 interface_property object
+%type <prop> property proper2 external_property external_proper2 interface_property object anonymous_function
 %type <file_block> file_block
 
 %type <tinfo> assigning comparing access
@@ -104,7 +104,7 @@ object:
 	| TINTERFACE identifier TLBRACE interface_block TRBRACE { $$ = new AInstDeclareInterface( $2, $4 ); }
 	| TEXTERNAL TCLASS identifier extends implements TLBRACE external_class_block TRBRACE TASSIGN identifier { $$ = new AInstExternalClass( $3, $4, $5, $7, $10 ); }
 	| TFUNCTION identifier TLPAREN declare_args TRPAREN TCOLON typage TLBRACE block TRBRACE { $$ = new AInstDeclareFunc( $2, $7, $4, $9 ); }
-	| TEXTERNAL TVAR identifier TCOLON typage TASSIGN expression { $$ = new AInstExternalGlobalVar( $3, $5, $7 ); }
+	| TEXTERNAL TVAR identifier TCOLON typage TASSIGN expression { $$ = new AInstExternalVar( $3, $5, $7 ); }
 	  ;
 
 block:
@@ -215,7 +215,8 @@ instruction:
 	| TDO TLBRACE block TRBRACE TWHILE TLPAREN expression TRPAREN { $$ = new AInstDo( $7, $3 ); }
 	| TTRY TLBRACE block TRBRACE TCATCH TLPAREN declare_arg TRPAREN TLBRACE block TRBRACE { $$ = new AInstTryCatch( $3, $7, $10 ); }
 	| TVAR identifier TCOLON typage TASSIGN expression { $$ = new AInstDeclareVar( $2, $4, $6 ); }
-	| TVAR identifier TCOLON typage { $$ = new AInstDeclareVar( $2, $4, NULL ); }
+	| TVAR identifier TCOLON typage TASSIGN anonymous_function { $$ = new AInstDeclareVar( $2, $4, $6 ); }
+	| TVAR identifier TCOLON typage { $$ = new AInstDeclareVar( $2, $4 ); }
 	| TVAR vars_declaration { $$ = new AInstDeclareMultVar( $2 ); }
 	| TDELETE get_path { $$ = new AInstDelete( $2 ); }
 	| TSWITCH TLPAREN expression TRPAREN TLBRACE switch_block TRBRACE { $$ = new AInstSwitch( $3, $6 ); }
@@ -229,11 +230,15 @@ instruction:
 
 vars_declaration:
 	  identifier TCOLON typage TASSIGN expression { $$ = new AObjectVector(); $$->push_back( new AInstDeclareVar( $1, $3, $5 ) ); }
-	| identifier TCOLON typage { $$ = new AObjectVector(); $$->push_back( new AInstDeclareVar( $1, $3, NULL ) ); }
+	| identifier TCOLON typage { $$ = new AObjectVector(); $$->push_back( new AInstDeclareVar( $1, $3 ) ); }
 	| vars_declaration TCOMMA identifier TCOLON typage TASSIGN expression { $$ = $1; $$->push_back( new AInstDeclareVar( $3, $5, $7 ) ); }
-	| vars_declaration TCOMMA identifier TCOLON typage { $$ = $1; $$->push_back( new AInstDeclareVar( $3, $5, NULL ) ); }
+	| vars_declaration TCOMMA identifier TCOLON typage TASSIGN anonymous_function { $$ = $1; $$->push_back( new AInstDeclareVar( $3, $5, $7 ) ); }
+	| vars_declaration TCOMMA identifier TCOLON typage { $$ = $1; $$->push_back( new AInstDeclareVar( $3, $5 ) ); }
 	;
 
+anonymous_function:
+	  TFUNCTION TLPAREN declare_args TRPAREN TCOLON typage TLBRACE block TRBRACE { $$ = new AInstDeclareAnoFunc( $1, $6, $3, $8 ); }
+	;
 
 switch_block:
 	  switch_inst { $$ = new AInstructionVector(); $$->push_back( $1 ); }
@@ -258,7 +263,7 @@ declare_arg:
 	;
 
 forin_var:
-	  TVAR identifier TCOLON typage { $$ = new AInstDeclareVar( $2, $4, NULL ); }
+	  TVAR identifier TCOLON typage { $$ = new AInstDeclareVar( $2, $4 ); }
 	;
 
 for_args:
@@ -348,6 +353,7 @@ call_args:
 typage:
 	  TNAME { $$ = new ATypage( $1, false ); }
 	| TNAME TLBRACKET TRBRACKET { $$ = new ATypage( $1, true ); }
+	| TVOID { $$ = new ATypage(); }
 	;
 
 identifier:

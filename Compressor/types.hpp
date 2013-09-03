@@ -85,6 +85,7 @@ class ATypage
 		std::string type;
 		std::string arrayType;
 		
+		ATypage();
 		ATypage( TokenInfo *token, bool isArray );
 		ATypage( std::string &name, bool isArray );
 };

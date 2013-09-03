@@ -36,7 +36,7 @@ class Package;
 class RootObject;
 class FileBlock;
 class AInstDeclareClass;
-class AInstExternalGlobalVar;
+class AInstExternalVar;
 
 typedef std::deque<FileBlock *> FileBlockDeque;
 
@@ -73,6 +73,7 @@ class PackageManager
 		static NanoFile *cfile;
 		static StringDeque *dirs;
 		static AObjectMap *objects;
+		static AObjectMap *extvars;
 		static AExpressionDeque *toImport;
 		static StringDeque *imported;
 		static StringDeque *allImports;
@@ -99,8 +100,9 @@ class PackageManager
 		static AInstPack *setCurrentPath( AExpression *pathObj ); // imports will be reset //
 		static AInstPack *addImportPath( AExpression *pathObj );
 		static const std::string &appendClass( AInstDeclareClass *obj );
+		static void appendExternalVar( AInstExternalVar *obj );
 		static AObject *getObject( std::string &name );
-		static AObject  *getExternalGlobalVar( std::string &name );
+		static AObject  *getExternalVar( std::string &name );
 		
 		static void appendBlockToCodeGen( FileBlock *block );
 		static AObject *searchObjectInPackage( std::string &name );
@@ -123,18 +125,23 @@ class PackageManager
 class AInstDeclareClass : public AObject
 {
 	protected:
-		AObjectVector *implements;
+		AObjectVector *implementsClasses;
 		AObjectVector *block;
+		bool inited;
+		virtual void startClass();
 		
 	public:
 		AObject *constructor;
 		ATypage *extends;
+		AExpressionVector *implements;
 		AInstDeclareClass *extendsClass;
 		
 		AInstDeclareClass( AExpression *name, ATypage *extends, AExpressionVector *implements, AObjectVector *block );
+		
 		virtual const std::string &codeGen( Context *ctx );
 		virtual const std::string &name();
 		
+		virtual bool objectByNameExists( const std::string &name );
 		virtual AObject *objectByName( const std::string &name );
 		AObject *getterByName( const std::string &name );
 		AObject *setterByName( const std::string &name );
@@ -165,13 +172,13 @@ class AInstDeclareInterface : public AInstDeclareClass
 		virtual const std::string &xname();
 };
 
-class AInstExternalGlobalVar : public AInstDeclareClass
+class AInstExternalVar : public AInstDeclareClass
 {
 	protected:
 		AExpression *id;
 	
 	public:
-		AInstExternalGlobalVar( AExpression *name, ATypage *typage, AExpression *id );
+		AInstExternalVar( AExpression *name, ATypage *typage, AExpression *id );
 		virtual const std::string &codeGen( Context *ctx );
 		virtual const std::string &xname();
 };

@@ -26,15 +26,19 @@
 
 #include <iostream>
 #include "types.hpp"
+#include "blocks.hpp"
 
 
 class AInstDeclareVar : public AObject
 {
 	protected:
 		AExpression *name;
+		AObject *func;
 	
 	public:
+		AInstDeclareVar( AExpression *name, ATypage *typage );
 		AInstDeclareVar( AExpression *name, ATypage *typage, AExpression *value );
+		AInstDeclareVar( AExpression *name, ATypage *typage, AObject *value );
 		virtual void setXName( AObject *target );
 		virtual const std::string &codeGen( Context *ctx );
 		virtual const std::string &sCodeGen( Context *ctx );

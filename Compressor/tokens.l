@@ -157,6 +157,7 @@ yyterminate();
 "false"			{ TOKEN(TFALSE); return TFALSE; }
 "true"			{ TOKEN(TTRUE); return TTRUE; }
 "var"			{ TOKEN(TVAR); return TVAR; }
+"void"			{ TOKEN(TVOID); return TVOID; }
 "if"			{ TOKEN(TIF); return TIF; }
 "else"			{ TOKEN(TELSE); return TELSE; }
 "while"			{ TOKEN(TWHILE); return TWHILE; }

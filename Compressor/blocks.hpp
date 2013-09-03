@@ -40,10 +40,20 @@ class AInstDeclareFunc : public AObject
 	public:
 		AInstDeclareFunc( AExpression *name, ATypage *typage, AInstructionVector *args, AInstructionVector *block );
 		bool constructor;
-		void setOwner( AObject *owner );
 		virtual void setXName( AObject *target );
 		virtual const std::string &codeGen( Context *ctx );
 		virtual const std::string &blockGen( Context *ctx );
+};
+
+class AInstDeclareAnoFunc : public AInstDeclareFunc, public AExpression
+{
+	public:
+		AInstDeclareAnoFunc( TokenInfo *token, ATypage *typage, AInstructionVector *args, AInstructionVector *block );
+		virtual const std::string &codeGen( Context *ctx );
+		virtual const std::string &blockGen( Context *ctx );
+		virtual void setXName( AObject *target );
+		virtual AObject *objectByName( const std::string &name );
+		virtual bool objectByNameExists( const std::string &name );
 };
 
 class AInstDeclareMethod : public AInstDeclareFunc

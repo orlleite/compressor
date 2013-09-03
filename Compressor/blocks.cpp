@@ -38,36 +38,18 @@ AInstDeclareFunc::AInstDeclareFunc( AExpression *name, ATypage *typage, AInstruc
 	this->block = block;
 	this->value = name;
 	this->args = args;
+	this->owner = NULL;
 	this->constructor = false;
-	this->rname = name->codeGen( NULL );
-	
-	AInstructionVector::const_iterator it;
-	AObject *temp;
-	
-	if( this->args )
-	{
-		for( it = this->args->begin(); it != this->args->end(); it++ )
-		{
-			temp = (AObject *)(*it);
-			temp->setXName( this );
-		}
-	}
-	
-	AInstruction *temp2;
-	for( it = this->block->begin(); it != this->block->end(); it++ )
-	{
-		temp2 = *it;
-		temp2->setXName( this );
-	}
+	this->rname = name ? name->codeGen( NULL ) : "";
 };
 
-void AInstDeclareFunc::setOwner( AObject *owner )
-{
-	this->owner = owner;
-};
-
+/*
+ setXName is called two times.
+ the first is used to get
+ */
 void AInstDeclareFunc::setXName( AObject *target )
 {
+	log("called setXName " << rname << " - " << target );
 	AObject *temp = target->objectByName( rname );
 	
 	if( temp )
@@ -92,6 +74,32 @@ void AInstDeclareFunc::setXName( AObject *target )
 	}
 	else
 		target->objects->insert( make_pair( rname, this ) );
+	
+	
+	if( !this->owner )
+	{
+		this->owner = target;
+		AInstructionVector::const_iterator it;
+		
+		if( this->args )
+		{
+			for( it = this->args->begin(); it != this->args->end(); it++ )
+			{
+				temp = (AObject *)(*it);
+				temp->setXName( this );
+			}
+		}
+		
+		if( this->block )
+		{
+			AInstruction *temp2;
+			for( it = this->block->begin(); it != this->block->end(); it++ )
+			{
+				temp2 = *it;
+				temp2->setXName( this );
+			}
+		}
+	}
 }
 
 const std::string &AInstDeclareFunc::blockGen( Context *ctx )
@@ -143,11 +151,6 @@ const std::string &AInstDeclareFunc::codeGen( Context *ctx )
 	std::string *defs = new std::string(); // defaults
 	ctx->cpath = NULL;
 	
-	if( DEBUGGING )
-	{
-		ctx->tabs += "	";
-	}
-	
 	if( this->args )
 	{
 		*temp += SPACE;
@@ -177,16 +180,199 @@ const std::string &AInstDeclareFunc::codeGen( Context *ctx )
 		
 		*temp += SPACE;
 	}
-	*temp += ")" + LINE_BREAK + "{" + LINE_BREAK;
+	*temp += ")" + LINE_BREAK + ctx->tabs + "{" + LINE_BREAK;
+	
+	if( DEBUGGING )
+	{
+		ctx->tabs += "	";
+	}
 	
 	if( defs->size() ) *temp += LINE_BREAK + *defs + ";" + LINE_BREAK;
 	
-	*temp += blockGen( ctx ) + "}";
+	*temp += blockGen( ctx ) + LINE_BREAK;
 	
 	if( DEBUGGING ) ctx->tabs.resize( ctx->tabs.size() - 1 );
 	
+	*temp += ctx->tabs + "}";
+	
 	return *temp;
 };
+
+
+// AInstDeclareAnoFunc //
+AInstDeclareAnoFunc::AInstDeclareAnoFunc( TokenInfo *token, ATypage *typage, AInstructionVector *args, AInstructionVector *block )
+: AInstDeclareFunc::AInstDeclareFunc( NULL, typage, args, block ), AExpression::AExpression( token )
+{
+	log( "created" );
+};
+
+void AInstDeclareAnoFunc::setXName( AObject *target )
+{
+	log("ano-func:setXName");
+	
+	if( !this->owner )
+	{
+		this->owner = target;
+		AInstructionVector::iterator it;
+		
+		if( this->args )
+		{
+			AObject *temp;
+			for( it = this->args->begin(); it != this->args->end(); it++ )
+			{
+				temp = (AObject *)(*it);
+				temp->setXName( this );
+			}
+		}
+		
+		if( this->block )
+		{
+			AInstruction *temp2;
+			for( it = this->block->begin(); it != this->block->end(); it++ )
+			{
+				temp2 = *it;
+				temp2->setXName( this );
+			}
+		}
+	}
+	
+	log("finished");
+}
+
+AObject *AInstDeclareAnoFunc::objectByName( const std::string &name )
+{
+	log( "anony objectByName" );
+	AObject *result = AObject::objectByName( name );
+	
+	if( result )
+		return result;
+	else
+		return owner->objectByName( name );
+};
+
+bool AInstDeclareAnoFunc::objectByNameExists( const std::string &name )
+{
+	log( "anony objectByNameExists" );
+	bool result = AObject::objectByNameExists( name );
+	//log( name << ", " << result << ", " << owner->objectByName( name ) );
+	if( result )
+		return result;
+	else
+		return owner->objectByNameExists( name );
+};
+
+const std::string &AInstDeclareAnoFunc::codeGen( Context *ctx )
+{
+//#if defined( INTERNAL_DEBUG ) && defined( DEBUG_CODEGEN_BLOCK )
+	INTERNAL_LOG( "CodeGen AInstDeclareAnoFunc" );
+//#endif
+	std::string *temp = new std::string( "function(" );
+	log( "temp " << *temp );
+	std::string *defs = new std::string(); // defaults
+	
+	log( "codegen ano" );
+	// setOwner( ctx->ctarget );
+	
+	Context *cctx = new Context();
+	cctx->cthis = ctx->ctarget;
+	cctx->cpath = ctx->cpath = NULL;
+	cctx->cpathClass = false;
+	cctx->isSuper = false;
+	cctx->tabs = ctx->tabs;
+	
+	bool ignoreStatic;
+	std::string tabs;
+	
+	if( this->args )
+	{
+		*temp += SPACE;
+		AInstructionVector::const_iterator it;
+		bool first = true;
+		bool dfirst = true;
+		
+		for( it = this->args->begin(); it != this->args->end(); it++ )
+		{
+			if( !first ) *temp += "," + SPACE;
+			*temp += (**it).codeGen( cctx );
+			cctx->cpath = NULL;
+			std::string t = ((AInstDeclareArg *)(*it))->defaultValue( cctx );
+			cctx->cpath = NULL;
+			
+			if( t.size() )
+			{
+				if( !dfirst ) *defs += ";" + LINE_BREAK;
+				*defs += cctx->tabs + t;
+				
+				dfirst = false;
+			}
+			
+			first = false;
+		}
+		
+		*temp += SPACE;
+	}
+	*temp += ")" + LINE_BREAK + cctx->tabs + "{";
+	
+	if( DEBUGGING ) cctx->tabs += "	";
+	
+	if( defs->size() ) *temp += LINE_BREAK + *defs + ";" + LINE_BREAK;
+	
+	*temp += blockGen( ctx ) + LINE_BREAK;
+	
+	if( DEBUGGING ) cctx->tabs.resize( cctx->tabs.size() - 1 );
+	
+	*temp += cctx->tabs + "}";
+	
+	//delete cctx;
+	
+	return *temp;
+};
+
+const std::string &AInstDeclareAnoFunc::blockGen( Context *ctx )
+{
+	std::string *temp = new std::string();
+	
+	Context *cctx = new Context();
+	cctx->cthis = ctx->ctarget;
+	cctx->cpath = ctx->cpath = NULL;
+	cctx->cpathClass = false;
+	cctx->isSuper = false;
+	cctx->tabs = ctx->tabs;
+	
+	AInstructionVector::const_iterator it;
+	bool first = true;
+	bool lcase = false;
+	bool rbrace = false;
+	int lastSize = 0;
+	
+	if( DEBUGGING ) cctx->tabs += "	";
+	
+	for( it = this->block->begin(); it != this->block->end(); it++ )
+	{
+		cctx->ctarget = this;
+		cctx->cpath = NULL;
+		
+		if( lastSize != temp->size() )
+			if( ( rbrace && typeid(**it) != typeid(AInstElse) && typeid(**it) != typeid(AInstElseif) ) ||
+			   ( !first && !lcase && !rbrace ) ) *temp += ";";
+		
+		if( DEBUGGING ) *temp += LINE_BREAK + cctx->tabs;
+		lastSize = temp->size();
+		*temp += (**it).codeGen( cctx );
+		
+		if( (*temp)[temp->size()-1] == '}' ) rbrace = true;
+		else rbrace = false;
+		
+		if( typeid(**it) == typeid(AInstCase) | typeid(**it) == typeid(AInstDefault) ) lcase = true;
+		else lcase = false;
+		
+		first = false;
+	}
+	
+	if( DEBUGGING ) cctx->tabs.resize( cctx->tabs.size() - 1 );
+	
+	return *temp;
+}
 
 
 // AInstDeclareMethod //

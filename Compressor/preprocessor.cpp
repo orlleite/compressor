@@ -395,6 +395,9 @@ const std::string &PreProcessor::replaceDefinitions( const std::string &value )
 		replaceAll( *temp, "#"+it->first, it->second );
 	}
 	
+	if( pp->ifcopen )
+		replaceAll( *temp, "*/", "* /" );
+	
 	return *temp;
 }
 

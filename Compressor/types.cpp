@@ -74,7 +74,7 @@ char *errorList1 [] = {
 	"ERROR 0022, LINE %d, FILE \"%s\" | Setter do not support this kind of operation (yet).",
 	"ERROR 0023, LINE %d, FILE \"%s\" | Property has the same name of class constructor.",
 	"ERROR 0024, LINE %d, FILE \"%s\" | Properties cannot be \"write-only\".",
-	"ERROR 0025, LINE %d, FILE \"%s\" | Object %d cannot be found.",
+	"ERROR 0025, LINE %d, FILE \"%s\" | Object %s cannot be found.",
 	"ERROR 0026, LINE %d, FILE \"%s\" | Class %s has no method %s needed for interface %s.",
 	"ERROR 0027, LINE %d, FILE \"%s\" | Class %s has no getter %s needed for interface %s.",
 	"ERROR 0028, LINE %d, FILE \"%s\" | Class %s has no setter %s needed for interface %s."
@@ -134,6 +134,12 @@ void TokenInfo::setType( int value )
 
 
 // ATypage //
+ATypage::ATypage()
+{
+	this->type = "";
+	this->arrayType = "";
+}
+
 ATypage::ATypage( TokenInfo *token, bool isArray )
 {
 	// this->name = token->value;
@@ -243,7 +249,7 @@ const std::string &AExpression::correctName( Context *ctx )
 			}
 			else
 			{
-				inst = PackageManager::getExternalGlobalVar( str );
+				inst = PackageManager::getExternalVar( str );
 				if( inst )
 				{
 					ctx->cpath = inst;
@@ -374,7 +380,7 @@ const std::string &AObject::newname( const std::string &rname )
 		else if( typeid(*this) == typeid(AInstDeclareFunc) )
 			thisType = "function";
 		
-		ERROR_LOG( errorList1[20], PackageManager::currentLine, PackageManager::currentFile.c_str(), rname.c_str(), rname.c_str() );
+		ERROR_LOG( errorList1[20], PackageManager::currentLine, PackageManager::currentFile.c_str(), rname.c_str(), this->rname.c_str() );
 		// exitWithError( "Duplicated var " + rname + " in " + thisType + " " + this->rname, 1 );
 	}
 	

@@ -31,18 +31,39 @@
 
 
 // AInstDeclareVar //
+AInstDeclareVar::AInstDeclareVar( AExpression *name, ATypage *typage )
+: AObject::AObject()
+{
+	this->name = name;
+	this->func = NULL;
+	this->typage = typage;
+	this->rname = name->codeGen( NULL );
+};
+
 AInstDeclareVar::AInstDeclareVar( AExpression *name, ATypage *typage, AExpression *value )
 	: AObject::AObject()
 {
 	this->name = name;
 	this->value = value;
+	this->func = NULL;
 	this->typage = typage;
 	this->rname = name->codeGen( NULL );
 };
 
+AInstDeclareVar::AInstDeclareVar( AExpression *name, ATypage *typage, AObject *value )
+{
+	this->name = name;
+	this->value = (AExpression *)value;
+	this->typage = typage;
+	this->func = value;
+	this->rname = name->codeGen( NULL );
+}
+
 void AInstDeclareVar::setXName( AObject *target )
 {
+	if( this->func ) log("var setxname");
 	_xname = target->newname( rname );
+	if( this->func ) this->func->setXName( target );
 	target->objects->insert( make_pair( rname, this ) );
 }
 
@@ -55,7 +76,12 @@ const std::string &AInstDeclareVar::sCodeGen( Context *ctx )
 	if( _xname == "" ) _xname = this->name->codeGen( ctx );
 	
 	std::string *temp = new std::string( _xname );
-	if( this->value ) *temp += SPACE + "=" + SPACE + this->value->codeGen( ctx );
+	if( this->func )
+	{
+		*temp += SPACE + "=" + SPACE + this->func->codeGen( ctx );
+	}
+	else if( this->value )
+		*temp += SPACE + "=" + SPACE + this->value->codeGen( ctx );
 	
 	ctx->cpath = NULL;
 	
