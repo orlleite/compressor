@@ -19,11 +19,11 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "Compressor/workspace.cpp"
-         timestampString = "399865021.056279"
+         timestampString = "400020720.37684"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "657"
-         endingLineNumber = "657"
+         startingLineNumber = "664"
+         endingLineNumber = "664"
          landmarkName = "PackageManager::searchObjectInPackage( std::string &amp;name )"
          landmarkType = "5">
       </FileBreakpoint>

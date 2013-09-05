@@ -422,7 +422,7 @@ union yyalloc
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  7
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  19
+#define YYNRULES  20
 /* YYNRULES -- Number of states.  */
 #define YYNSTATES  27
 
@@ -471,25 +471,28 @@ static const yytype_uint8 yytranslate[] =
    YYRHS.  */
 static const yytype_uint8 yyprhs[] =
 {
-       0,     0,     3,     4,     7,     8,    11,    13,    15,    19,
-      22,    25,    27,    29,    31,    35,    39,    41,    44,    46
+       0,     0,     3,     4,     7,     8,    11,    13,    15,    18,
+      22,    25,    28,    30,    32,    34,    38,    42,    44,    47,
+      49
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const yytype_int8 yyrhs[] =
 {
       18,     0,    -1,    -1,    18,    19,    -1,    -1,    19,    20,
-      -1,    20,    -1,    16,    -1,     4,    14,    15,    -1,     5,
-      21,    -1,     6,    21,    -1,     7,    -1,     8,    -1,    22,
-      -1,    21,    23,    21,    -1,    11,    21,    12,    -1,    14,
-      -1,    13,    14,    -1,     9,    -1,    10,    -1
+      -1,    20,    -1,    16,    -1,     4,    14,    -1,     4,    14,
+      15,    -1,     5,    21,    -1,     6,    21,    -1,     7,    -1,
+       8,    -1,    22,    -1,    21,    23,    21,    -1,    11,    21,
+      12,    -1,    14,    -1,    13,    14,    -1,     9,    -1,    10,
+      -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
        0,    55,    55,    56,    60,    61,    62,    66,    67,    68,
-      69,    70,    71,    75,    76,    80,    81,    82,    86,    86
+      69,    70,    71,    72,    76,    77,    81,    82,    83,    87,
+      87
 };
 #endif
 
@@ -519,14 +522,16 @@ static const yytype_uint16 yytoknum[] =
 static const yytype_uint8 yyr1[] =
 {
        0,    17,    18,    18,    19,    19,    19,    20,    20,    20,
-      20,    20,    20,    21,    21,    22,    22,    22,    23,    23
+      20,    20,    20,    20,    21,    21,    22,    22,    22,    23,
+      23
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
 static const yytype_uint8 yyr2[] =
 {
-       0,     2,     0,     2,     0,     2,     1,     1,     3,     2,
-       2,     1,     1,     1,     3,     3,     1,     2,     1,     1
+       0,     2,     0,     2,     0,     2,     1,     1,     2,     3,
+       2,     2,     1,     1,     1,     3,     3,     1,     2,     1,
+       1
 };
 
 /* YYDEFACT[STATE-NAME] -- Default reduction number in state STATE-NUM.
@@ -534,9 +539,9 @@ static const yytype_uint8 yyr2[] =
    means the default is an error.  */
 static const yytype_uint8 yydefact[] =
 {
-       2,     0,     1,     0,     0,     0,    11,    12,     7,     3,
-       6,     0,     0,     0,    16,     9,    13,    10,     5,     8,
-       0,    17,    18,    19,     0,    15,    14
+       2,     0,     1,     0,     0,     0,    12,    13,     7,     3,
+       6,     8,     0,     0,    17,    10,    14,    11,     5,     9,
+       0,    18,    19,    20,     0,    16,    15
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -1415,66 +1420,72 @@ yyreduce:
   case 8:
 /* Line 1787 of yacc.c  */
 #line 67 "pre_parser.y"
-    { (yyval.line) = new PDefine( (yyvsp[(2) - (3)].tinfo), (yyvsp[(3) - (3)].tinfo) ); }
+    { (yyval.line) = new PDefine( (yyvsp[(2) - (2)].tinfo), NULL ); }
     break;
 
   case 9:
 /* Line 1787 of yacc.c  */
 #line 68 "pre_parser.y"
-    { (yyval.line) = new PIfDef( (yyvsp[(2) - (2)].expr) ); }
+    { (yyval.line) = new PDefine( (yyvsp[(2) - (3)].tinfo), (yyvsp[(3) - (3)].tinfo) ); }
     break;
 
   case 10:
 /* Line 1787 of yacc.c  */
 #line 69 "pre_parser.y"
-    { (yyval.line) = new PElseIfDef( (yyvsp[(2) - (2)].expr) ); }
+    { (yyval.line) = new PIfDef( (yyvsp[(2) - (2)].expr) ); }
     break;
 
   case 11:
 /* Line 1787 of yacc.c  */
 #line 70 "pre_parser.y"
-    { (yyval.line) = new PElseDef(); }
+    { (yyval.line) = new PElseIfDef( (yyvsp[(2) - (2)].expr) ); }
     break;
 
   case 12:
 /* Line 1787 of yacc.c  */
 #line 71 "pre_parser.y"
-    { (yyval.line) = new PEndIfDef(); }
+    { (yyval.line) = new PElseDef(); }
     break;
 
   case 13:
 /* Line 1787 of yacc.c  */
-#line 75 "pre_parser.y"
-    { (yyval.expr) = (yyvsp[(1) - (1)].expr); }
+#line 72 "pre_parser.y"
+    { (yyval.line) = new PEndIfDef(); }
     break;
 
   case 14:
 /* Line 1787 of yacc.c  */
 #line 76 "pre_parser.y"
-    { (yyval.expr) = new PExpOperation( (yyvsp[(1) - (3)].expr), (yyvsp[(2) - (3)].tinfo), (yyvsp[(3) - (3)].expr) ); }
+    { (yyval.expr) = (yyvsp[(1) - (1)].expr); }
     break;
 
   case 15:
 /* Line 1787 of yacc.c  */
-#line 80 "pre_parser.y"
-    { (yyval.expr) = new PExpParent( (yyvsp[(2) - (3)].expr) ); }
+#line 77 "pre_parser.y"
+    { (yyval.expr) = new PExpOperation( (yyvsp[(1) - (3)].expr), (yyvsp[(2) - (3)].tinfo), (yyvsp[(3) - (3)].expr) ); }
     break;
 
   case 16:
 /* Line 1787 of yacc.c  */
 #line 81 "pre_parser.y"
-    {  (yyval.expr) = new PExpression( (yyvsp[(1) - (1)].tinfo) ); }
+    { (yyval.expr) = new PExpParent( (yyvsp[(2) - (3)].expr) ); }
     break;
 
   case 17:
 /* Line 1787 of yacc.c  */
 #line 82 "pre_parser.y"
+    {  (yyval.expr) = new PExpression( (yyvsp[(1) - (1)].tinfo) ); }
+    break;
+
+  case 18:
+/* Line 1787 of yacc.c  */
+#line 83 "pre_parser.y"
     {  (yyval.expr) = new PExpNot( (yyvsp[(1) - (2)].tinfo) ); }
     break;
 
 
 /* Line 1787 of yacc.c  */
-#line 1478 "pre_parser.cpp"
+#line 1489 "pre_parser.cpp"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1706,5 +1717,5 @@ yyreturn:
 
 
 /* Line 2050 of yacc.c  */
-#line 91 "pre_parser.y"
+#line 92 "pre_parser.y"
 

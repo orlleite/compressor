@@ -63,7 +63,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "-b"
+            argument = "-d BROWSER_GROUP_2"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
