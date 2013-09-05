@@ -64,6 +64,7 @@ block:
 
 line:
 	  TLINE { $$ = new PLine( $1 ); }
+	| TDEFINE TDEFNAME { $$ = new PDefine( $2, NULL ); }
 	| TDEFINE TDEFNAME TDEFVALUE { $$ = new PDefine( $2, $3 ); }
 	| TIFDEF expression { $$ = new PIfDef( $2 ); }
 	| TELSEIFDEF expression { $$ = new PElseIfDef( $2 ); }

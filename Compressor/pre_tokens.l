@@ -75,6 +75,7 @@
 
 <IDEFINE_VALUE>(\\[\r\n]|[^\r\n])*[\r\n] { BEGIN INITIAL; SAVE_TOKEN(TDEFVALUE, zztext, zzleng-1 ); return TDEFVALUE; }
 <IDEFINE_NAME>" "[a-zA-Z_][a-zA-Z0-9_]*" " { BEGIN IDEFINE_VALUE; SAVE_TOKEN(TDEFNAME, zztext+1, zzleng-2 ); return TDEFNAME; }
+<IDEFINE_NAME>" "[a-zA-Z_][a-zA-Z0-9_]*[\r\n] { BEGIN INITIAL; SAVE_TOKEN(TDEFNAME, zztext+1, zzleng-2 ); return TDEFNAME; }
 "#define" { BEGIN IDEFINE_NAME; TOKEN(TDEFINE); return TDEFINE; }
 
 

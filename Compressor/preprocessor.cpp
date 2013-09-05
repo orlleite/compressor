@@ -127,11 +127,18 @@ const std::string &PLine::codeGen()
 PDefine::PDefine( TokenInfo *name, TokenInfo *value ) : PLine::PLine( name )
 {
 	this->value = value;
-	pp->addDef( token->value, value->value );
 };
 
 const std::string &PDefine::codeGen()
 {
+	if( this->value )
+		pp->addDef( token->value, value->value );
+	else
+	{
+		std::string value = "";
+		pp->addDef( token->value, value );
+	}
+	
 	return "\n";
 };
 

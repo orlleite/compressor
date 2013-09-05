@@ -96,7 +96,7 @@ class PackageManager
 		 */
 		static AInstPack *endOfFile();
 
-		static void startWithPath( const std::string &base, const std::string &path );
+		static void startWithPath( const std::string &base, const std::string &path, StringVector defines );
 		static AInstPack *setCurrentPath( AExpression *pathObj ); // imports will be reset //
 		static AInstPack *addImportPath( AExpression *pathObj );
 		static const std::string &appendClass( AInstDeclareClass *obj );

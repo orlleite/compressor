@@ -311,7 +311,7 @@ int PackageManager::processNextFile()
 	return yyparse();
 };
 
-void PackageManager::startWithPath( const std::string &base, const std::string &path )
+void PackageManager::startWithPath( const std::string &base, const std::string &path, StringVector defines )
 {
 	// const std::string path = pathObj->codeGen( NULL );
 #if defined( INTERNAL_DEBUG ) && defined( DEBUG_PACKAGE )
@@ -323,6 +323,13 @@ void PackageManager::startWithPath( const std::string &base, const std::string &
 	StringDeque *strList = stringSplit( path, '/' );
 	strList->erase( strList->end() - 1 );
 	pp = new PreProcessor( stringJoin( strList, "/" ) + "/__temp__" );
+	
+	for( StringVector::iterator it = defines.begin(); it != defines.end(); it++ )
+	{
+		std::string name = *it;
+		std::string value = "";
+		pp->addDef( name, value );
+	}
 	
 	// Load language base file //
 	expit = toImport->begin();

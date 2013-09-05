@@ -50,19 +50,22 @@ int main (int argc, char **argv)
 		TCLAP::ValueArg<std::string> inputArg("i","input","The target file to be compiled.", false, "./main.nn","string");
 		cmd.add( inputArg );
 		
-		TCLAP::ValueArg<std::string> outputArg("o","output","The javascript compiled file to be saved.", false, "./main.js","string");
+		TCLAP::ValueArg<std::string> outputArg("o","output","The javascript output file to be saved.", false, "./main.js","string");
 		cmd.add( outputArg );
 		
-		TCLAP::MultiArg<std::string> srcsArg("s", "source-path", "Source path. It is accepted multiple paths by adding mutiple '-s's.", false, "string");
+		TCLAP::MultiArg<std::string> srcsArg("s", "source-path", "Source path. Where compressor will look for classes. It accept multiple paths by adding mutiples '-s'.", false, "string");
 		cmd.add( srcsArg );
 		
-		TCLAP::ValueArg<std::string> baseArg("b","base","Language base file, should have atleast Object class.", false, "./base.nn","string");
+		TCLAP::MultiArg<std::string> definesArg("d", "define", "Define a preprocessor constant (p.ex: -d BROWSER_GROUP_0).", false, "string");
+		cmd.add( definesArg );
+		
+		TCLAP::ValueArg<std::string> baseArg("b","base","Language base file, should have at least the 'Object' class.", false, "./base.nn","string");
 		cmd.add( baseArg );
 		
-		TCLAP::SwitchArg debugArg("D","debug","Don't compress names and make a beautiful code to be debugged. It's the same as -n -b", false);
+		TCLAP::SwitchArg debugArg("D","debug","Don't compress names and make a beautiful code to be debugged. It's the same as -n -b simultaneously.", false);
 		cmd.add( debugArg );
 		
-		TCLAP::SwitchArg compressNamesArg("N","compress-names","Don't compress names.", false);
+		TCLAP::SwitchArg compressNamesArg("N","keep-names","Don't compress classes, methods, vars and functions names.", false);
 		cmd.add( compressNamesArg );
 		
 		TCLAP::SwitchArg lineBreaksArg("B","line-breaks","Make lines break.", false);
@@ -103,7 +106,7 @@ int main (int argc, char **argv)
 		int t = yyparse();*/
 		
 		log( "Input: " << inputArg.getValue() );
-		PackageManager::startWithPath( baseArg.getValue(), inputArg.getValue() );
+		PackageManager::startWithPath( baseArg.getValue(), inputArg.getValue(), definesArg.getValue() );
 		log( "Output: " << outputFile );
 		log( "Build Successfully." );
 		
