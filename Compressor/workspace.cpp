@@ -162,6 +162,9 @@ int PackageManager::currentLine = 0;
 std::string PackageManager::currentFile = "";
 AExpression *PackageManager::currentPathObj = NULL;
 AExpressionDeque::iterator PackageManager::expit;
+int PackageManager::searchingObjectFromLine = 0;
+std::string PackageManager::searchingObjectFromFile = "";
+std::string PackageManager::searchingClassName = "";
 
 PackageManager::PackageManager()
 {
@@ -239,7 +242,7 @@ AInstPack *PackageManager::endOfFile()
 	NanoFile *parsedFile = cfile;
 	cfile = NULL;
 	// cfile = cfile->importerFile;
-	delete parsedFile;
+	// delete parsedFile;
 	
 	return new AInstPack();
 	
@@ -428,13 +431,16 @@ const std::string &PackageManager::appendClass( AInstDeclareClass *obj )
 	INTERNAL_LOG( "AppendClass: " << obj->rname );
 #endif
 	
-	if( searchingClass )
+	std::string fullname = cfile->path + "." + obj->rname;
+	if( searchingClass && fullname != PackageManager::searchingClassName )
 	{
 		return obj->rname;
 	}
 	else
 	{
+		obj->cfile = cfile;
 		std::string name = cfile->path + "." + obj->name();
+		obj->package = cfile->path;
 		// log( "append: " << name );
 		(*objects)[name] = obj;
 		
@@ -524,8 +530,12 @@ const std::string &PackageManager::interfaceNewName()
 	return *temp;
 
 }
-
-
+/*
+AObject *PackageManager::getObject( std::string &name, std::string &package )
+{
+	
+}
+*/
 AObject *PackageManager::getObject( std::string &name )
 {
 #if defined( INTERNAL_DEBUG ) && defined( DEBUG_PACKAGE )
@@ -630,10 +640,12 @@ AObject *PackageManager::searchObjectInPackage( std::string &name )
 	searchingClass = true;
 	//	log( name );
 	std::string path = cfile->path + "." + name;
-	// log( firstTry );
+	PackageManager::searchingClassName = path;
+	// log( path );
 	
 	// log( "firsttry: " << path );
 	AObjectMap::iterator inter = objects->find( path );
+	// log( "inter == end" << ( inter == objects->end() ) );
 	NanoFile *current = cfile;
 	// log( "new test path -> " << path << " -> " << ( std::find( allImports->begin(), allImports->end(), path ) == allImports->end() ) );
 	if( inter == objects->end() && ( std::find( allImports->begin(), allImports->end(), path ) == allImports->end() ) )
@@ -660,8 +672,10 @@ AObject *PackageManager::searchObjectInPackage( std::string &name )
 		}
 		else
 		{
+			iteration_log( AObjectMap::iterator, (*objects), it->first );
+			
 			// Objeto não encontrado, ERRO!
-			ERROR_LOG( errorList1[25], PackageManager::currentLine, PackageManager::currentFile.c_str(), name.c_str() );
+			ERROR_LOG( errorList1[25], PackageManager::searchingObjectFromLine, PackageManager::searchingObjectFromFile.c_str(), name.c_str() );
 			return NULL;
 		}
 	}
@@ -685,6 +699,7 @@ void Package::appendClass( AInstDeclareClass *obj )
 AInstDeclareClass::AInstDeclareClass( AExpression *name, ATypage *extends, AExpressionVector *implements, AObjectVector *block )
 	: AObject::AObject()
 {
+	this->cfile = NULL;
 	this->inited = false;
 	this->extends = extends;
 	this->implements = implements;
@@ -704,6 +719,10 @@ void AInstDeclareClass::startClass()
 	inited = true;
 	// log( "startClass: " << rname );
 	
+	// std::cout << this->cfile->imports << std::endl;
+	NanoFile *oldFile = PackageManager::cfile;
+	PackageManager::cfile = this->cfile;
+	
 	std::string oname = extends ? extends->type : std::string(BASE_CLASS);
 	AInstDeclareClass *parent;
 	if( oname == rname )
@@ -712,6 +731,8 @@ void AInstDeclareClass::startClass()
 	}
 	else
 	{
+		PackageManager::searchingObjectFromLine = this->value->token->line;
+		PackageManager::searchingObjectFromFile = this->value->token->filename;
 		parent = (AInstDeclareClass *) PackageManager::getObject( oname );
 	}
 	this->extendsClass = parent;
@@ -730,6 +751,9 @@ void AInstDeclareClass::startClass()
 		for( it = implements->begin(); it != implements->end(); it++ )
 		{
 			std::string iname = (*it)->codeGen(NULL);
+			
+			PackageManager::searchingObjectFromLine = (*it)->token->line;
+			PackageManager::searchingObjectFromFile = (*it)->token->filename;
 			temp = (AInstDeclareClass *) PackageManager::getObject( iname );
 			this->implementsClasses->push_back( temp );
 		}
@@ -755,6 +779,8 @@ void AInstDeclareClass::startClass()
 			if( typeid(*temp) == typeid(AInstDeclareSet) ) temp->setXName( this );
 		}
 	}
+	
+	PackageManager::cfile = oldFile;
 };
 
 const std::string &AInstDeclareClass::name()
@@ -843,7 +869,7 @@ const std::string &AInstDeclareClass::codeGen( Context *ctx )
 	Context *scctx = new Context();
 	scctx->cthis = this; // cctx for static members
 	
-	std::string name = this->value->codeGen(ctx);
+	//std::string name = this->value->codeGen(ctx);
 	
 	std::string *temp = new std::string( ctx->tabs + "$." + this->xname() + SPACE + "=" + SPACE );
 	if( this->constructor )
@@ -854,14 +880,14 @@ const std::string &AInstDeclareClass::codeGen( Context *ctx )
 	if( this->extendsClass && extendsClass->xname() != "Object" )
 	{
 		// AObject *obj = PackageManager::getObject( this->extends->codeGen( NULL ) );
-		*temp += LINE_BREAK + name + ".prototype" + SPACE + "=" + SPACE + "$._($." + extendsClass->xname() + ".prototype);";
+		*temp += LINE_BREAK + this->rname + ".prototype" + SPACE + "=" + SPACE + "$._($." + extendsClass->xname() + ".prototype);";
 	}
 	else
 	{
-		// *temp += LINE_BREAK + name + ".prototype" + SPACE + "=" + SPACE + "new Object();";
+		// *temp += LINE_BREAK + this->rname + ".prototype" + SPACE + "=" + SPACE + "new Object();";
 	}
 	
-	*temp += LINE_BREAK + name + "._" + SPACE + "=" + SPACE + name + ".prototype;";
+	*temp += LINE_BREAK + this->rname + "._" + SPACE + "=" + SPACE + this->rname + ".prototype;";
 	
 	if( DEBUGGING ) cctx->tabs += "";
 	// if( extends ) *temp += "var __={};__._=this._;";
@@ -891,7 +917,7 @@ const std::string &AInstDeclareClass::codeGen( Context *ctx )
 				// if( (**it).overwrite ) *temp += "__." + (**it).xname() + "=this." + (**it).xname() + ";";
 				
 				
-				*temp += cctx->tabs + name + "._." + (**it).codeGen( cctx );
+				*temp += cctx->tabs + this->rname + "._." + (**it).codeGen( cctx );
 				
 				first = false;
 			}
@@ -1001,7 +1027,14 @@ const std::string &mainCodeGen( FileBlockDeque *block )
 	INTERNAL_LOG( "MainCodeGen" );
 #endif
 	
-	std::string *temp = new std::string( "$" + SPACE + "=" + SPACE + "{" + LINE_BREAK );
+	std::string *temp = new std::string( "/*\
+ * Created with Compressor\
+ * http://github.com/orlleite/compressor\
+ */\
+\
+" );
+	
+	*temp += "$" + SPACE + "=" + SPACE + "{" + LINE_BREAK;
 	
 	std::string tab = "";
 	

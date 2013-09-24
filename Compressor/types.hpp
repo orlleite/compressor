@@ -84,8 +84,11 @@ class ATypage
 	public:
 		std::string type;
 		std::string arrayType;
+	
+		int line;
+		std::string filename;
 		
-		ATypage();
+		// ATypage();
 		ATypage( TokenInfo *token, bool isArray );
 		ATypage( std::string &name, bool isArray );
 };
@@ -94,12 +97,12 @@ class ATypage
 class AExpression
 {
 	protected:
-		TokenInfo *token;
 		AExpression *a;
 		AExpression *b;
 		const std::string &correctName( Context *ctx );
 		
 	public:
+		TokenInfo *token;
 		AExpression( TokenInfo *token );
 		virtual const std::string &codeGen( Context *ctx );
 };
@@ -107,14 +110,14 @@ class AExpression
 class AInstruction
 {
 	protected:
-		AExpression *value;
 		std::string _xname;
 		
 	public:
+		AExpression *value;
 		virtual void setXName( AObject *target );
 		virtual const std::string &xname();
 		AObject *from;
-	
+		
 		bool external;
 		AInstruction( AExpression *value );
 		virtual const std::string &codeGen( Context *ctx );
@@ -130,7 +133,7 @@ class AObject : public AInstruction
 		bool overwrite;
 		AObjectMap *objects;
 		ATypage *typage;
-		
+	
 		virtual const std::string &newname( const std::string &rname );
 		std::string rname;
 		bool isSetter;
@@ -168,8 +171,8 @@ class TokenInfo
 	
 	public:
 		std::string value;
+	
 		std::string filename;
-		
 		unsigned int line;
 		
 		TokenInfo( int type, unsigned int line, const std::string &value, const std::string &file );

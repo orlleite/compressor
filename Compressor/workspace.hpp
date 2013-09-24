@@ -70,7 +70,6 @@ class PackageManager
 		static std::string names;
 		static std::string internames;/* interface names */
 		static PackageMap *map;
-		static NanoFile *cfile;
 		static StringDeque *dirs;
 		static AObjectMap *objects;
 		static AObjectMap *extvars;
@@ -78,11 +77,18 @@ class PackageManager
 		static StringDeque *imported;
 		static StringDeque *allImports;
 		static bool searchingClass;
+		static std::string searchingClassName;
 		static bool loadingBaseFile;
 		static int processNextFile();
 	
 	public:
+		static NanoFile *cfile;
 		static int currentLine;
+		
+		/* Supposedly, this will be the error position */
+		static int searchingObjectFromLine;
+		static std::string searchingObjectFromFile;
+		
 		static std::string currentFile;
 		static AExpression *currentPathObj;
 		static const std::string &newname();
@@ -102,7 +108,10 @@ class PackageManager
 		static const std::string &appendClass( AInstDeclareClass *obj );
 		static void appendExternalVar( AInstExternalVar *obj );
 		static AObject *getObject( std::string &name );
-		static AObject  *getExternalVar( std::string &name );
+		
+		/* May be this will be implemented in the future */
+		//static AObject *getObject( std::string &name, std::string &package );
+		static AObject *getExternalVar( std::string &name );
 		
 		static void appendBlockToCodeGen( FileBlock *block );
 		static AObject *searchObjectInPackage( std::string &name );
@@ -131,6 +140,13 @@ class AInstDeclareClass : public AObject
 		virtual void startClass();
 		
 	public:
+		/* Currently cfile is only used by classes to set 
+		 * default package when looking for other objects.
+		 * May be this will be implemented in all AObjects.
+		 */
+		NanoFile *cfile;
+		
+		std::string package;
 		AObject *constructor;
 		ATypage *extends;
 		AExpressionVector *implements;

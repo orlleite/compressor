@@ -30,7 +30,11 @@
 
 	extern int yylex( void );
 	
-	void yyerror(const char *s) { printf("ERROR: %s\n", s); };
+	void yyerror(const char *s)
+	{
+		ERROR_LOG( errorList1[3], PackageManager::currentLine, PackageManager::currentFile.c_str() );
+		//std::cout << "ERROR: " << s << std::endl;
+	};
 %}
 
 /* Represents the many different ways we can access our data */
@@ -353,7 +357,7 @@ call_args:
 typage:
 	  TNAME { $$ = new ATypage( $1, false ); }
 	| TNAME TLBRACKET TRBRACKET { $$ = new ATypage( $1, true ); }
-	| TVOID { $$ = new ATypage(); }
+	| TVOID { $$ = new ATypage( $1, false ); }
 	;
 
 identifier:

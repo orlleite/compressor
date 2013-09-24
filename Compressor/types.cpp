@@ -52,7 +52,7 @@ char *errorList1 [] = {
 	"",
 	"ERROR 0001 | Language base file \"%s\" not found.",
 	"ERROR 0002 | File \"%s\" not found.",
-	"",
+	"ERROR 0003, LINE %d, FILE \"%s\" | Currently untracked syntax error.",
 	"",
 	"",
 	"",
@@ -134,22 +134,36 @@ void TokenInfo::setType( int value )
 
 
 // ATypage //
-ATypage::ATypage()
+/*ATypage::ATypage()
 {
 	this->type = "";
 	this->arrayType = "";
-}
+}*/
 
 ATypage::ATypage( TokenInfo *token, bool isArray )
 {
-	// this->name = token->value;
-	// this->isArray = isArray;
-	this->type = isArray ? "Array" : token->value;
-	this->arrayType = token->value;
+	this->line = token->line;
+	this->filename = token->filename;
+	
+	if( token->type() == TVOID )
+	{
+		this->type = "";
+		this->arrayType = "";
+	}
+	else
+	{
+		// this->name = token->value;
+		// this->isArray = isArray;
+		this->type = isArray ? "Array" : token->value;
+		this->arrayType = token->value;
+	}
 }
 
 ATypage::ATypage( std::string &name, bool isArray )
 {
+	this->line = 0;
+	this->filename = "";
+	
 	this->arrayType = name;
 	this->type = isArray ? "Array" : name;
 }
@@ -185,6 +199,10 @@ const std::string &AExpression::correctName( Context *ctx )
 			{
 				// log( ctx->cpath << std::endl;
 				std::string obj = ctx->cpath->typage->type;
+				
+				PackageManager::searchingObjectFromLine = ctx->cpath->typage->line;
+				PackageManager::searchingObjectFromFile = ctx->cpath->typage->filename;
+				
 				AObject *target = PackageManager::getObject( obj );
 				
 				if( target )
@@ -258,6 +276,10 @@ const std::string &AExpression::correctName( Context *ctx )
 					return *new std::string( inst->xname() );
 				}
 				
+				PackageManager::searchingObjectFromLine = token->line;
+				PackageManager::searchingObjectFromFile = token->filename;
+				log( currentFile );
+				
 				inst = PackageManager::getObject( str );
 				
 				if( inst )
@@ -296,7 +318,7 @@ const std::string &AExpression::codeGen( Context *ctx )
 			if( ctx )
 			{
 				ctx->cpath = new AObject();
-				ctx->cpath->typage = new ATypage( ctx->cthis->rname, false );
+				ctx->cpath->typage = new ATypage( ctx->cthis->value->token, false );
 			}
 			temp = "this";
 			break;

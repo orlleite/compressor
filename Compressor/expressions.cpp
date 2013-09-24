@@ -406,6 +406,10 @@ const std::string &AExpGetItem::codeGen( Context *ctx )
 	*temp += this->c->codeGen(ctx) + "]";
 	
 	std::string obj = tempPath->typage->arrayType;
+	
+	PackageManager::searchingObjectFromLine = tempPath->typage->line;
+	PackageManager::searchingObjectFromFile = tempPath->typage->filename;
+	
 	AObject *target = PackageManager::getObject( obj );
 	
 	// log( target << std::endl;
@@ -511,6 +515,9 @@ const std::string &AExpCallFunc::codeGen( Context *ctx )
 		std::string typage = ctx->cpath->typage->type;
 		if( typage != "" )
 		{
+			PackageManager::searchingObjectFromLine = ctx->cpath->typage->line;
+			PackageManager::searchingObjectFromFile = ctx->cpath->typage->filename;
+			
 			AObject *inst = PackageManager::getObject( typage );
 			if( inst )
 			{
@@ -690,6 +697,9 @@ const std::string &AExpNew::codeGen( Context *ctx )
 	ctx->cpath = tempPath;
 	if( ctx->cpath )
 	{
+		PackageManager::searchingObjectFromLine = 0;
+		PackageManager::searchingObjectFromFile = "undefined";
+		
 		AObject *inst = PackageManager::getObject( ctx->cpath->rname );
 		if( inst )
 		{
