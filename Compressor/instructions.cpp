@@ -61,6 +61,8 @@ AInstDeclareVar::AInstDeclareVar( AExpression *name, ATypage *typage, AObject *v
 
 void AInstDeclareVar::setXName( AObject *target )
 {
+	this->loadTypage();
+	
 	_xname = target->newname( rname );
 	if( this->func ) this->func->setXName( target );
 	target->objects->insert( make_pair( rname, this ) );
@@ -801,7 +803,8 @@ const std::string &AInstDelete::codeGen( Context *ctx )
 AInstDeclareArg::AInstDeclareArg( AExpression *name, ATypage *typage, AExpression *value )
 	: AInstDeclareVar::AInstDeclareVar( name, typage, value )
 {
-	
+	/*if( name->codeGen(NULL) == "asdfasdf" )
+		log( rname << " teste: " << value );*/
 };
 
 const std::string &AInstDeclareArg::codeGen( Context *ctx )
@@ -810,7 +813,11 @@ const std::string &AInstDeclareArg::codeGen( Context *ctx )
 	INTERNAL_LOG( "CodeGen AInstDeclareArg" );
 #endif
 	
-	if( _xname == "" ) _xname = this->value->codeGen( ctx );
+	// log( "_xname: " << _xname );
+	/*if( _xname == "" )
+	{
+		_xname = this->value->codeGen( ctx );
+	}*/
 	ctx->cpath = NULL;
 	
 	return _xname;

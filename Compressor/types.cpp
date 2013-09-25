@@ -53,7 +53,7 @@ char *errorList1 [] = {
 	"ERROR 0001 | Language base file \"%s\" not found.",
 	"ERROR 0002 | File \"%s\" not found.",
 	"ERROR 0003, LINE %d, FILE \"%s\" | Currently untracked syntax error.",
-	"",
+	"ERROR 0004, LINE %d, FILE \"%s\" | Unterminated comment.",
 	"",
 	"",
 	"",
@@ -441,6 +441,18 @@ const std::string &AObject::newname( const std::string &rname )
 	} while( reservedWord( *temp ) );
 	
 	return *temp;
+}
+
+void AObject::loadTypage()
+{
+	/* Get the type of the object to be sure it exists */
+	if( typage && typage->type != "" )
+	{
+		//log( "trying: " << typage->type );
+		PackageManager::searchingObjectFromLine = typage->line;
+		PackageManager::searchingObjectFromFile = typage->filename;
+		PackageManager::getObject( typage->type );
+	}
 }
 
 const std::string &AObject::codeGen( Context *ctx )

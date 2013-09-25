@@ -54,169 +54,167 @@
 		const char *realFilename;
 		FILE *f;
 	} *curbs = 0;
+	
+	const char *curfilename;
 
 %}
 
+%x COMMENT
 %x IFILE
 
 %%
 
-"/*"([^\*]|\*[^/])*"*/" { ; }
-"//"[^\r\n]*[\r\n] { ; }
-^"#include"[ \t]*[\"<] { BEGIN IFILE; }
-
-<IFILE>[^ \t\n\">]+ {
-{
-	int c;
-	while((c = yyinput()) && c != '\n');
-}
-
-yylineno++;
-// if(!newfile(yytext)) yyterminate();
-/* no such file */
-BEGIN INITIAL;
-}
-<IFILE>.|\n {
-fprintf(stderr, "%4d bad include line\n", yylineno);
-yyterminate();
-}
-<<EOF>>			{ /*if(!popfile()) TOKEN(TEOF); return TEOF;*/ yyterminate(); }
-
-(\r\n|[\r\n])	{ ++yylineno; }
-
-"@name"			{ TOKEN(TCOMPNAME); return TCOMPNAME; }
-"@get"			{ TOKEN(TCOMPGET); return TCOMPGET; }
-"@set"			{ TOKEN(TCOMPSET); return TCOMPSET; }
-@[a-zA-Z_][a-zA-Z0-9_]* { SAVE_TOKEN( TCOMPVAR, yytext, yyleng ); return TCOMPVAR; /* currently not used */ }
-
-"=="			{ TOKEN(TEQ); return TEQ; }
-"==="			{ TOKEN(TEQA); return TEQA; }
-"!="			{ TOKEN(TNE); return TNE; }
-"!=="			{ TOKEN(TNEA); return TNEA; }
-"<"				{ TOKEN(TLT); return TLT; }
-"<="			{ TOKEN(TLE); return TLE; }
-">"				{ TOKEN(TGT); return TGT; }
-">="			{ TOKEN(TGE); return TGE; }
-"+"				{ TOKEN(TPLUS); return TPLUS; }
-"-"				{ TOKEN(TMINUS); return TMINUS; }
-"*"				{ TOKEN(TMULT); return TMULT; }
-"/"				{ TOKEN(TDIVIDE); return TDIVIDE; }
-"%"				{ TOKEN(TMODULUS); return TMODULUS; }
-"!"				{ TOKEN(TNOT); return TNOT; }
-"++"			{ TOKEN(TINCREMENT); return TINCREMENT; }
-"--"			{ TOKEN(TDECREMENT); return TDECREMENT; }
-")"				{ TOKEN(TRPAREN); return TRPAREN; }
-"("				{ TOKEN(TLPAREN); return TLPAREN; }
-"["				{ TOKEN(TLBRACKET); return TLBRACKET; }
-"]"				{ TOKEN(TRBRACKET); return TRBRACKET; }
-"{"				{ TOKEN(TLBRACE); return TLBRACE; }
-"}"				{ TOKEN(TRBRACE); return TRBRACE; }
-","				{ TOKEN(TCOMMA); return TCOMMA; }
-"."				{ TOKEN(TDOT); return TDOT; }
-"="				{ TOKEN(TASSIGN); return TASSIGN; }
-"+="			{ TOKEN(TASSIGN_PLUS); return TASSIGN_PLUS; }
-"-="			{ TOKEN(TASSIGN_MINUS); return TASSIGN_MINUS; }
-"*="			{ TOKEN(TASSIGN_MULTIPLY); return TASSIGN_MULTIPLY; }
-"/="			{ TOKEN(TASSIGN_DIVIDE); return TASSIGN_DIVIDE; }
-"|="			{ TOKEN(TASSIGN_BOR); return TASSIGN_BOR; }
-";"				{ TOKEN(TSEMICOLON); return TSEMICOLON; }
-":"				{ TOKEN(TCOLON); return TCOLON; }
-"?"				{ TOKEN(TQUESTION); return TQUESTION; }
-"||"			{ TOKEN(TOR); return TOR; }
-"|"				{ TOKEN(TBOR); return TBOR; }
-"&&"			{ TOKEN(TAND); return TAND; }
-"&"				{ TOKEN(TBAND); return TBAND; }
-"~"				{ TOKEN(TBNOT); return TBNOT; }
-"^"				{ TOKEN(TBXOR); return TBXOR; }
-"<<"			{ TOKEN(TLSHIFT); return TLSHIFT; }
-">>"			{ TOKEN(TRSHIFT); return TRSHIFT; }
-">>>"			{ TOKEN(TZFILL); return TZFILL; }
-"instanceof"	{ TOKEN(TINSTANCEOF); return TINSTANCEOF; }
-"delete"		{ TOKEN(TDELETE); return TDELETE; }
-"continue"		{ TOKEN(TQUESTION); return TCONTINUE; }
-"return"		{ TOKEN(TRETURN); return TRETURN; }
-"break"			{ TOKEN(TBREAK); return TBREAK; }
-"case"			{ TOKEN(TCASE); return TCASE; }
-"default"		{ TOKEN(TDEFAULT); return TDEFAULT; }
-"switch"		{ TOKEN(TSWITCH); return TSWITCH; }
-"null"			{ TOKEN(TNULL); return TNULL; }
-"new"			{ TOKEN(TNEW); return TNEW; }
-"function"		{ TOKEN(TFUNCTION); return TFUNCTION; }
-"get"			{ TOKEN(TGET); return TGET; }
-"set"			{ TOKEN(TSET); return TSET; }
-"package"		{ TOKEN(TPACKAGE); return TPACKAGE; }
-"import"		{ TOKEN(TIMPORT); return TIMPORT; }
-"class"			{ TOKEN(TCLASS); return TCLASS; }
-"public"		{ TOKEN(TPUBLIC); return TPUBLIC; }
-"private"		{ TOKEN(TPRIVATE); return TPRIVATE; }
-"protected"		{ TOKEN(TPROTECTED); return TPROTECTED; }
-"this"			{ TOKEN(TTHIS); return TTHIS; }
-"super"			{ TOKEN(TSUPER); return TSUPER; }
-"static"		{ TOKEN(TSTATIC); return TSTATIC; }
-"const"			{ TOKEN(TCONST); return TCONST; }
-"false"			{ TOKEN(TFALSE); return TFALSE; }
-"true"			{ TOKEN(TTRUE); return TTRUE; }
-"var"			{ TOKEN(TVAR); return TVAR; }
-"void"			{ TOKEN(TVOID); return TVOID; }
-"if"			{ TOKEN(TIF); return TIF; }
-"else"			{ TOKEN(TELSE); return TELSE; }
-"while"			{ TOKEN(TWHILE); return TWHILE; }
-"try"			{ TOKEN(TTRY); return TTRY; }
-"catch"			{ TOKEN(TCATCH); return TCATCH; }
-"do"			{ TOKEN(TDO); return TDO; }
-"for"			{ TOKEN(TFOR); return TFOR; }
-"in"			{ TOKEN(TIN); return TIN; }
-"extends"		{ TOKEN(TEXTENDS); return TEXTENDS; }
-"implements"	{ TOKEN(TIMPLEMENTS); return TIMPLEMENTS; }
-"interface"		{ TOKEN(TINTERFACE); return TINTERFACE; }
-"external"		{ TOKEN(TEXTERNAL); return TEXTERNAL; }
-"customize"		{ TOKEN(TCUSTOMIZE); return TCUSTOMIZE; }
-"export"		{ TOKEN(TEXPORT); return TEXPORT; }
-[0-9]+|"."[0-9]+|[0-9]+"."[0-9]+|"0x"[0-9a-fA-F]+	{ 
-	SAVE_TOKEN( TNUMBER, yytext, yyleng );
-	return TNUMBER;
-}
-[a-zA-Z_][a-zA-Z0-9_]* {
-	SAVE_TOKEN( TNAME, yytext, yyleng );
-	return TNAME;
-}
-([ \t]+|[\r\n]) { ; }
-\"(\\.|[^\\"])*\" {
-	SAVE_TOKEN( TSTRING, yytext, yyleng );
-	return TSTRING;
-}
-\/(\\.|[^\/g])*\/g {
-	SAVE_TOKEN( TREGEX, yytext, yyleng );
-	return TSTRING;
-}
-\'(\\.|[^\\'])*\' {
-SAVE_TOKEN( TSTRING, yytext, yyleng );
-return TSTRING;
-}
-%{/*\        { ; }
-\n       { nextline(); }
-\t       { ; }
-"//".*\n { nextline(); }
-.        { yyerror("illegal token"); }
-
-[0-9]+		{ yylval = atoi(yytext); return TNUMERO; }
-"+"		return OP_SOMA;
-"-"		return OP_SUB;
-"*"		return OP_MULT;
-"/"		return OP_DIV;* /
+%{ 
+/* Comment */
+/* Thanks John R. Levine. If you're here, you should buy Flex & Bison O'Reilly book. */
 %}
-[ \t]+
-[\r\n]		{ return TEOL;
-	/* NAO usar [\r\n]+ senao ele fica 'a espera
-	 do proximo caracter apos o Enter!!
-	 Note-se que um EOL do Windows ("\r\n")
-	 faz gerar dois tokens EOL * /
-	 }*/
-	%}
+"/*"					{ BEGIN COMMENT; }
+<COMMENT>"*/"			{ BEGIN INITIAL; }
+<COMMENT>.				{ ; }
+<COMMENT>[\r\n]			{ ++yylineno; }
+<COMMENT><<EOF>>		{ ERROR_LOG( errorList1[4], yylineno, curfilename ); }
+
+%{
+/* Simple comment */
+%}
+"//"[^\r\n]*[\r\n]		{ ++yylineno; }
+
+%{
+/* File system */
+%}
+^"#include"[ \t]*[\"<]	{ BEGIN IFILE; }
+<IFILE>[^ \t\n\">]+		{
+							int c;
+							while((c = yyinput()) && c != '\n');
+
+							yylineno++;
+							BEGIN INITIAL;
+						}
+<IFILE>.|\n				{
+							fprintf(stderr, "%4d bad include line\n", yylineno);
+							yyterminate();
+						}
+<<EOF>>					{ yyterminate(); }
+
+%{
+/* Line counter */
+%}
+(\r\n|[\r\n])			{ ++yylineno; }
+
+%{
+/* Compiler functions */
+%}
+"@name"					{ TOKEN(TCOMPNAME); return TCOMPNAME; }
+"@get"					{ TOKEN(TCOMPGET); return TCOMPGET; }
+"@set"					{ TOKEN(TCOMPSET); return TCOMPSET; }
+@[a-zA-Z_][a-zA-Z0-9_]*	{ SAVE_TOKEN( TCOMPVAR, yytext, yyleng ); return TCOMPVAR; /* currently not used */ }
+
+%{
+/* Comparing and operators */
+%}
+"=="					{ TOKEN(TEQ); return TEQ; }
+"==="					{ TOKEN(TEQA); return TEQA; }
+"!="					{ TOKEN(TNE); return TNE; }
+"!=="					{ TOKEN(TNEA); return TNEA; }
+"<"						{ TOKEN(TLT); return TLT; }
+"<="					{ TOKEN(TLE); return TLE; }
+">"						{ TOKEN(TGT); return TGT; }
+">="					{ TOKEN(TGE); return TGE; }
+"+"						{ TOKEN(TPLUS); return TPLUS; }
+"-"						{ TOKEN(TMINUS); return TMINUS; }
+"*"						{ TOKEN(TMULT); return TMULT; }
+"/"						{ TOKEN(TDIVIDE); return TDIVIDE; }
+"%"						{ TOKEN(TMODULUS); return TMODULUS; }
+"!"						{ TOKEN(TNOT); return TNOT; }
+"++"					{ TOKEN(TINCREMENT); return TINCREMENT; }
+"--"					{ TOKEN(TDECREMENT); return TDECREMENT; }
+")"						{ TOKEN(TRPAREN); return TRPAREN; }
+"("						{ TOKEN(TLPAREN); return TLPAREN; }
+"+="					{ TOKEN(TASSIGN_PLUS); return TASSIGN_PLUS; }
+"-="					{ TOKEN(TASSIGN_MINUS); return TASSIGN_MINUS; }
+"*="					{ TOKEN(TASSIGN_MULTIPLY); return TASSIGN_MULTIPLY; }
+"/="					{ TOKEN(TASSIGN_DIVIDE); return TASSIGN_DIVIDE; }
+"|="					{ TOKEN(TASSIGN_BOR); return TASSIGN_BOR; }
+"="						{ TOKEN(TASSIGN); return TASSIGN; }
+"||"					{ TOKEN(TOR); return TOR; }
+"|"						{ TOKEN(TBOR); return TBOR; }
+"&&"					{ TOKEN(TAND); return TAND; }
+"&"						{ TOKEN(TBAND); return TBAND; }
+"~"						{ TOKEN(TBNOT); return TBNOT; }
+"^"						{ TOKEN(TBXOR); return TBXOR; }
+"<<"					{ TOKEN(TLSHIFT); return TLSHIFT; }
+">>"					{ TOKEN(TRSHIFT); return TRSHIFT; }
+">>>"					{ TOKEN(TZFILL); return TZFILL; }
+
+%{
+/* Basic syntax organization */
+%}
+"["						{ TOKEN(TLBRACKET); return TLBRACKET; }
+"]"						{ TOKEN(TRBRACKET); return TRBRACKET; }
+"{"						{ TOKEN(TLBRACE); return TLBRACE; }
+"}"						{ TOKEN(TRBRACE); return TRBRACE; }
+","						{ TOKEN(TCOMMA); return TCOMMA; }
+"."						{ TOKEN(TDOT); return TDOT; }
+";"						{ TOKEN(TSEMICOLON); return TSEMICOLON; }
+":"						{ TOKEN(TCOLON); return TCOLON; }
+"?"						{ TOKEN(TQUESTION); return TQUESTION; }
+
+%{
+/* Reserved words */
+%}
+"instanceof"			{ TOKEN(TINSTANCEOF); return TINSTANCEOF; }
+"delete"				{ TOKEN(TDELETE); return TDELETE; }
+"continue"				{ TOKEN(TQUESTION); return TCONTINUE; }
+"return"				{ TOKEN(TRETURN); return TRETURN; }
+"break"					{ TOKEN(TBREAK); return TBREAK; }
+"case"					{ TOKEN(TCASE); return TCASE; }
+"default"				{ TOKEN(TDEFAULT); return TDEFAULT; }
+"switch"				{ TOKEN(TSWITCH); return TSWITCH; }
+"null"					{ TOKEN(TNULL); return TNULL; }
+"new"					{ TOKEN(TNEW); return TNEW; }
+"function"				{ TOKEN(TFUNCTION); return TFUNCTION; }
+"get"					{ TOKEN(TGET); return TGET; }
+"set"					{ TOKEN(TSET); return TSET; }
+"package"				{ TOKEN(TPACKAGE); return TPACKAGE; }
+"import"				{ TOKEN(TIMPORT); return TIMPORT; }
+"class"					{ TOKEN(TCLASS); return TCLASS; }
+"public"				{ TOKEN(TPUBLIC); return TPUBLIC; }
+"private"				{ TOKEN(TPRIVATE); return TPRIVATE; }
+"protected"				{ TOKEN(TPROTECTED); return TPROTECTED; }
+"this"					{ TOKEN(TTHIS); return TTHIS; }
+"super"					{ TOKEN(TSUPER); return TSUPER; }
+"static"				{ TOKEN(TSTATIC); return TSTATIC; }
+"const"					{ TOKEN(TCONST); return TCONST; }
+"false"					{ TOKEN(TFALSE); return TFALSE; }
+"true"					{ TOKEN(TTRUE); return TTRUE; }
+"var"					{ TOKEN(TVAR); return TVAR; }
+"void"					{ TOKEN(TVOID); return TVOID; }
+"if"					{ TOKEN(TIF); return TIF; }
+"else"					{ TOKEN(TELSE); return TELSE; }
+"while"					{ TOKEN(TWHILE); return TWHILE; }
+"try"					{ TOKEN(TTRY); return TTRY; }
+"catch"					{ TOKEN(TCATCH); return TCATCH; }
+"do"					{ TOKEN(TDO); return TDO; }
+"for"					{ TOKEN(TFOR); return TFOR; }
+"in"					{ TOKEN(TIN); return TIN; }
+"extends"				{ TOKEN(TEXTENDS); return TEXTENDS; }
+"implements"			{ TOKEN(TIMPLEMENTS); return TIMPLEMENTS; }
+"interface"				{ TOKEN(TINTERFACE); return TINTERFACE; }
+"external"				{ TOKEN(TEXTERNAL); return TEXTERNAL; }
+"customize"				{ TOKEN(TCUSTOMIZE); return TCUSTOMIZE; }
+"export"				{ TOKEN(TEXPORT); return TEXPORT; }
+
+%{
+/* Number, name, string and regex */
+%}
+[0-9]+|"."[0-9]+|[0-9]+"."[0-9]+|"0x"[0-9a-fA-F]+ { SAVE_TOKEN( TNUMBER, yytext, yyleng ); return TNUMBER; }
+[a-zA-Z_][a-zA-Z0-9_]*	{ SAVE_TOKEN( TNAME, yytext, yyleng ); return TNAME; }
+([ \t]+|[\r\n])			{ ; }
+\"(\\.|[^\\"])*\"		{ SAVE_TOKEN( TSTRING, yytext, yyleng ); return TSTRING; }
+\/(\\.|[^\/g])*\/g		{ SAVE_TOKEN( TREGEX, yytext, yyleng ); return TSTRING; }
+\'(\\.|[^\\'])*\'		{ SAVE_TOKEN( TSTRING, yytext, yyleng ); return TSTRING; }
 
 %%
-
-const char *curfilename;
 
 int newfile( const char *fn, const char *realPath )
 {

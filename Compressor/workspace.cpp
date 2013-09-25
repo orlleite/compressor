@@ -719,7 +719,7 @@ void AInstDeclareClass::startClass()
 	inited = true;
 	// log( "startClass: " << rname );
 	
-	// std::cout << this->cfile->imports << std::endl;
+	// log( this->cfile->imports );
 	NanoFile *oldFile = PackageManager::cfile;
 	PackageManager::cfile = this->cfile;
 	
@@ -763,20 +763,25 @@ void AInstDeclareClass::startClass()
 	AObject *temp;
 	if( this->block )
 	{
+		AObjectVector *sets = new AObjectVector();
 		for( it = this->block->begin(); it != this->block->end(); it++ )
 		{
 			temp = (AObject *)(*it);
 			
 			temp->from = this;
-			if( typeid(*temp) != typeid(AInstDeclareSet) ) temp->setXName( this );
+			if( typeid(*temp) == typeid(AInstDeclareSet) )
+				sets->push_back( temp );
+			else
+				temp->setXName( this );
 		}
 		
-		for( it = this->block->begin(); it != this->block->end(); it++ )
+		for( it = sets->begin(); it != sets->end(); it++ )
 		{
 			temp = (AObject *)(*it);
 			
 			temp->from = this;
-			if( typeid(*temp) == typeid(AInstDeclareSet) ) temp->setXName( this );
+			temp->setXName( this );
+			log( temp->rname );
 		}
 	}
 	
@@ -880,14 +885,14 @@ const std::string &AInstDeclareClass::codeGen( Context *ctx )
 	if( this->extendsClass && extendsClass->xname() != "Object" )
 	{
 		// AObject *obj = PackageManager::getObject( this->extends->codeGen( NULL ) );
-		*temp += LINE_BREAK + this->rname + ".prototype" + SPACE + "=" + SPACE + "$._($." + extendsClass->xname() + ".prototype);";
+		*temp += LINE_BREAK + "$." + this->rname + ".prototype" + SPACE + "=" + SPACE + "$._($." + extendsClass->xname() + ".prototype);";
 	}
 	else
 	{
 		// *temp += LINE_BREAK + this->rname + ".prototype" + SPACE + "=" + SPACE + "new Object();";
 	}
 	
-	*temp += LINE_BREAK + this->rname + "._" + SPACE + "=" + SPACE + this->rname + ".prototype;";
+	*temp += LINE_BREAK + "$." + this->rname + "._" + SPACE + "=" + SPACE + "$." + this->rname + ".prototype;";
 	
 	if( DEBUGGING ) cctx->tabs += "";
 	// if( extends ) *temp += "var __={};__._=this._;";
@@ -917,7 +922,7 @@ const std::string &AInstDeclareClass::codeGen( Context *ctx )
 				// if( (**it).overwrite ) *temp += "__." + (**it).xname() + "=this." + (**it).xname() + ";";
 				
 				
-				*temp += cctx->tabs + this->rname + "._." + (**it).codeGen( cctx );
+				*temp += cctx->tabs + "$." + this->rname + "._." + (**it).codeGen( cctx );
 				
 				first = false;
 			}
@@ -940,7 +945,7 @@ const std::string &AInstDeclareClass::codeGen( Context *ctx )
 };
 
 AInstExternalClass::AInstExternalClass( AExpression *name, ATypage *extends, AExpressionVector *implements, AObjectVector *block, AExpression *id )
-: AInstDeclareClass::AInstDeclareClass( name, extends, implements, block )
+	: AInstDeclareClass::AInstDeclareClass( name, extends, implements, block )
 {
 	this->id = id;
 	this->external = true;

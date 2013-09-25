@@ -128,6 +128,7 @@ class AObject : public AInstruction
 {
 	protected:
 		std::string names;
+		void loadTypage();
 		
 	public:
 		bool overwrite;

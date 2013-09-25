@@ -49,6 +49,8 @@ AInstDeclareFunc::AInstDeclareFunc( AExpression *name, ATypage *typage, AInstruc
  */
 void AInstDeclareFunc::setXName( AObject *target )
 {
+	this->loadTypage();
+	
 	if( target )
 	{
 		AObject *temp = target->objectByName( rname );
@@ -212,6 +214,8 @@ AInstDeclareAnoFunc::AInstDeclareAnoFunc( TokenInfo *token, ATypage *typage, AIn
 
 void AInstDeclareAnoFunc::setXName( AObject *target )
 {
+	this->loadTypage();
+	
 	if( !this->owner )
 	{
 		this->owner = target;
@@ -466,12 +470,35 @@ AInstDeclareSet::AInstDeclareSet( AExpression *name, ATypage *typage, AInstructi
 
 void AInstDeclareSet::setXName( AObject *target )
 {
-	AInstDeclareGet *temp = (AInstDeclareGet *) ((AInstDeclareClass *) target)->getterByName( rname );
-	if( temp )
+	this->loadTypage();
+	
+	AObject *temp;
+	AInstructionVector::const_iterator it;
+	if( this->args )
+	{
+		for( it = this->args->begin(); it != this->args->end(); it++ )
+		{
+			temp = (AObject *)(*it);
+			temp->setXName( this );
+		}
+	}
+	
+	if( this->block )
+	{
+		AInstruction *temp2;
+		for( it = this->block->begin(); it != this->block->end(); it++ )
+		{
+			temp2 = *it;
+			temp2->setXName( this );
+		}
+	}
+	
+	AInstDeclareGet *temp2 = (AInstDeclareGet *) ((AInstDeclareClass *) target)->getterByName( rname );
+	if( temp2 )
 	{
 		_xname = *new std::string( "_" );
 		if( DEBUGGING ) _xname += "_set_";
-		_xname += temp->xname();
+		_xname += temp2->xname();
 	}
 	else
 	{
@@ -502,6 +529,8 @@ AInstDeclareProp::AInstDeclareProp( AExpression *name, ATypage *typage, AExpress
 
 void AInstDeclareProp::setXName( AObject *target )
 {
+	this->loadTypage();
+	
 	_xname = target->newname( rname );
 	if( target->rname == rname )
 	{
@@ -563,6 +592,7 @@ const std::string &AInstDeclareMultProp::codeGen( Context *ctx )
 		first = false;
 	}
 	
+	// log( *temp );
 	return *temp;
 }
 
@@ -578,6 +608,8 @@ AInstExternalMethod::AInstExternalMethod( AExpression *name, ATypage *typage, AI
 
 void AInstExternalMethod::setXName( AObject *target )
 {
+	this->loadTypage();
+	
 	if( target->rname == rname && typeid(*target) == typeid(AInstDeclareClass) )
 	{
 		this->constructor = true;
@@ -609,6 +641,8 @@ AInstExternalGet::AInstExternalGet( AExpression *name, ATypage *typage, AInstruc
 
 void AInstExternalGet::setXName( AObject *target )
 {
+	this->loadTypage();
+	
 	_xname = this->id->codeGen(NULL);
 	
 	if( !this->isVar ) _xname += "()";
@@ -636,6 +670,29 @@ AInstExternalSet::AInstExternalSet( AExpression *name, ATypage *typage, AInstruc
 
 void AInstExternalSet::setXName( AObject *target )
 {
+	this->loadTypage();
+	
+	AObject *temp;
+	AInstructionVector::const_iterator it;
+	if( this->args )
+	{
+		for( it = this->args->begin(); it != this->args->end(); it++ )
+		{
+			temp = (AObject *)(*it);
+			temp->setXName( this );
+		}
+	}
+	
+	if( this->block )
+	{
+		AInstruction *temp2;
+		for( it = this->block->begin(); it != this->block->end(); it++ )
+		{
+			temp2 = *it;
+			temp2->setXName( this );
+		}
+	}
+	
 	if( target->rname == rname && typeid(*target) == typeid(AInstDeclareClass) )
 	{
 		this->constructor = true;
@@ -645,6 +702,8 @@ void AInstExternalSet::setXName( AObject *target )
 		target->objects->insert( make_pair( rname, this ) );
 	
 	((AInstDeclareClass *)target)->setters->insert( make_pair( rname, this ) );
+	
+	started = true;
 }
 
 const std::string &AInstExternalSet::codeGen( Context *ctx )
@@ -666,6 +725,8 @@ AInstExternalProp::AInstExternalProp( AExpression *name, ATypage *typage, AExpre
 
 void AInstExternalProp::setXName( AObject *target )
 {
+	this->loadTypage();
+	
 	_xname = this->id->codeGen(NULL);
 	if( target->rname == rname )
 	{
@@ -694,6 +755,8 @@ AInstInterfaceMethod::AInstInterfaceMethod( AExpression *name, ATypage *typage, 
 
 void AInstInterfaceMethod::setXName( AObject *target )
 {
+	this->loadTypage();
+	
 	_xname = PackageManager::interfaceNewName();
 	target->objects->insert( make_pair( rname, this ) );
 };
@@ -723,6 +786,8 @@ AInstInterfaceGet::AInstInterfaceGet( AExpression *name, ATypage *typage, AInstr
 
 void AInstInterfaceGet::setXName( AObject *target )
 {
+	this->loadTypage();
+	
 	_xname = PackageManager::interfaceNewName();
 	target->objects->insert( make_pair( rname, this ) );
 	((AInstDeclareClass *)target)->getters->insert( make_pair( rname, this ) );
@@ -752,6 +817,8 @@ AInstInterfaceSet::AInstInterfaceSet( AExpression *name, ATypage *typage, AInstr
 
 void AInstInterfaceSet::setXName( AObject *target )
 {
+	this->loadTypage();
+	
 	_xname = PackageManager::interfaceNewName();
 	target->objects->insert( make_pair( rname, this ) );
 	((AInstDeclareClass *)target)->setters->insert( make_pair( rname, this ) );
